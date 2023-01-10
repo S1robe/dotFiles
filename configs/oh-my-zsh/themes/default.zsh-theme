@@ -2,14 +2,14 @@
 
 
 # Grab the current date (%W) and time (%t):
-T_TIME_="%F{#ae59ff}#%F{#666666}|%F{#00f795}%W%F{#ff9c00}@%F{#00f795}%t%F{#666666}| (%{$reset_color%}"
+T_TIME_="%F{#bca6ec}# %F{#666666}|%F{#a3c899}%W%{$reset_color%}@%F{#a3c899}%t%F{#666666}| (%{$reset_color%}"
 
 
 # Grab the current machine name 
-T_MACHINE_="%F{#0082e4}%m% %F{#666666})%F{#ae59ff}:%{$reset_color%}"
+T_MACHINE_="%F{#bca6ec}%m% %F{#666666})%F{#24ecff}:%{$reset_color%}"
 
 # Grab the current username 
-T_CURRENT_USER_="%F{#f79900}%n%{$reset_color%}"
+T_CURRENT_USER_="%F{#99b3B8}%n%{$reset_color%}"
 
 # Grab the current filepath, use shortcuts: ~/Desktop
 # Append the current git branch, if in a git repository: ~aw@master
