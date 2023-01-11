@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="duellj"
+ZSH_THEME="default"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -99,13 +99,3 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export PATH="$PATH:$HOME/.local/bin/pylsp"
-export PATH="$PATH:/home/owner/.local/share/JetBrains/Toolbox/scripts"
-export PATH="$PATH:/home/owner/Utilities/JavaLibs/javafx-sdk-11/lib/"
-export PATH="$PATH:/home/owner/Utilities/platform-tools/"
-export PATH="/home/owner/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/owner/Utilities/node-v14.15.4-linux-x64/bin"
-export PATH="$PATH:/usr/local/bin/com.docker.io"
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/terraform terraform
