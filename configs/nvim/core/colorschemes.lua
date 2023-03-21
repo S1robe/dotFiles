@@ -35,25 +35,11 @@ M.onedark = function()
   vim.cmd([[colorscheme onedark]])
 end
 
-M.edge = function()
-  vim.g.edge_enable_italic = 1
-  vim.g.edge_better_performance = 1
-
-  vim.cmd([[colorscheme edge]])
-end
-
 M.sonokai = function()
   vim.g.sonokai_enable_italic = 1
   vim.g.sonokai_better_performance = 1
 
   vim.cmd([[colorscheme sonokai]])
-end
-
-M.gruvbox_material = function()
-  vim.g.gruvbox_material_enable_italic = 1
-  vim.g.gruvbox_material_better_performance = 1
-
-  vim.cmd([[colorscheme gruvbox-material]])
 end
 
 M.nord = function()
@@ -76,7 +62,7 @@ M.nightfox = function()
 end
 
 M.kanagawa = function()
-  vim.cmd([[colorscheme kanagawa]])
+  vim.cmd([[colorscheme kanagawa-dragon]])
 end
 
 M.catppuccin = function()
@@ -122,4 +108,4 @@ M.rand_colorscheme = function()
 end
 
 -- Load a random colorscheme
-M.rand_colorscheme()
+M.kanagawa()

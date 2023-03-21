@@ -2,8 +2,6 @@ local keymap = vim.keymap
 local api = vim.api
 local uv = vim.loop
 
--- Save key strokes (now we do not need to press shift to enter command mode).
-keymap.set({ "n", "x" }, ";", ":")
 
 -- Turn the word under cursor to upper case
 keymap.set("i", "<c-u>", "<Esc>viwUea")
@@ -152,19 +150,17 @@ keymap.set("x", "<A-j>", '<cmd>call utils#MoveSelection("down")<cr>', { desc = "
 -- see also https://stackoverflow.com/q/10723700/6064933.
 keymap.set("x", "p", '"_c<Esc>p')
 
--- Go to a certain buffer
-keymap.set("n", "gb", '<cmd>call buf_utils#GoToBuffer(v:count, "forward")<cr>', {
-  desc = "go to buffer (forward)",
-})
-keymap.set("n", "gB", '<cmd>call buf_utils#GoToBuffer(v:count, "backward")<cr>', {
+-- Switch Tabs (Buffers or open files)
+keymap.set("n", "<S-TAB>", '<cmd>call buf_utils#GoToBuffer(v:count, "backward")<cr>', {
   desc = "go to buffer (backward)",
 })
 
+
 -- Switch windows
--- keymap.set("n", "<left>", "<c-w>h")
---keymap.set("n", "<Right>", "<C-W>l")
---keymap.set("n", "<Up>", "<C-W>k")
---keymap.set("n", "<Down>", "<C-W>j")
+keymap.set("n", "<left>", "<c-w>h")
+keymap.set("n", "<Right>", "<C-W>l")
+keymap.set("n", "<Up>", "<C-W>k")
+keymap.set("n", "<Down>", "<C-W>j")
 
 -- Text objects for URL
 keymap.set({ "x", "o" }, "iu", "<cmd>call text_obj#URL()<cr>", { desc = "URL text object" })

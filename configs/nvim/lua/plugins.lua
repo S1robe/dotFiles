@@ -52,7 +52,17 @@ packer.startup {
 
     use { "wbthomason/packer.nvim", opt = true }
 
+    use 'andweeb/presence.nvim'
+
+    -- file explorer
+    use {
+      "nvim-tree/nvim-tree.lua",
+      requires = { "nvim-tree/nvim-web-devicons" },
+      config = [[require('config.nvim-tree')]],
+    }
+
     use { "onsails/lspkind-nvim", event = "VimEnter" }
+
     -- auto-completion engine
     use { "hrsh7th/nvim-cmp", after = "lspkind-nvim", config = [[require('config.nvim-cmp')]] }
 
@@ -62,21 +72,16 @@ packer.startup {
     use { "hrsh7th/cmp-buffer", after = "nvim-cmp" }
     use { "hrsh7th/cmp-omni", after = "nvim-cmp" }
     use { "quangnguyen30192/cmp-nvim-ultisnips", after = { "nvim-cmp", "ultisnips" } }
-    if vim.g.is_mac then
-      use { "hrsh7th/cmp-emoji", after = "nvim-cmp" }
-    end
 
     -- nvim-lsp configuration (it relies on cmp-nvim-lsp, so it should be loaded after cmp-nvim-lsp).
     use { "neovim/nvim-lspconfig", after = "cmp-nvim-lsp", config = [[require('config.lsp')]] }
 
-    if vim.g.is_mac then
       use {
         "nvim-treesitter/nvim-treesitter",
         event = "BufEnter",
         run = ":TSUpdate",
         config = [[require('config.treesitter')]],
       }
-    end
 
     -- Python indent (follows the PEP8 style)
     use { "Vimjas/vim-python-pep8-indent", ft = { "python" } }
@@ -127,15 +132,7 @@ packer.startup {
     use { "nvim-telescope/telescope-symbols.nvim", after = "telescope.nvim" }
 
     -- A list of colorscheme plugin you may want to try. Find what suits you.
-    use { "lifepillar/vim-gruvbox8", opt = true }
-    use { "navarasu/onedark.nvim", opt = true }
-    use { "sainnhe/edge", opt = true }
-    use { "sainnhe/sonokai", opt = true }
-    use { "sainnhe/gruvbox-material", opt = true }
-    use { "shaunsingh/nord.nvim", opt = true }
-    use { "NTBBloodbath/doom-one.nvim", opt = true }
-    use { "sainnhe/everforest", opt = true }
-    use { "EdenEast/nightfox.nvim", opt = true }
+    
     use { "rebelot/kanagawa.nvim", opt = true }
     use { "catppuccin/nvim", as = "catppuccin", opt = true }
 
@@ -177,13 +174,6 @@ packer.startup {
         end, 2000)
       end,
     }
-
-    -- For Windows and Mac, we can open an URL in the browser. For Linux, it may
-    -- not be possible since we maybe in a server which disables GUI.
-    if vim.g.is_win or vim.g.is_mac then
-      -- open URL in browser
-      use { "tyru/open-browser.vim", event = "VimEnter" }
-    end
 
     -- Only install these plugins if ctags are installed on the system
     if utils.executable("ctags") then
@@ -251,7 +241,7 @@ packer.startup {
     use { "lewis6991/gitsigns.nvim", config = [[require('config.gitsigns')]] }
 
     -- Better git commit experience
-    use { "rhysd/committia.vim", opt = true, setup = [[vim.cmd('packadd committia.vim')]] }
+    use { "rhysd/committia.vim", setup = [[vim.cmd('packadd committia.vim')]] }
 
     use { "kevinhwang91/nvim-bqf", ft = "qf", config = [[require('config.bqf')]] }
 
@@ -354,12 +344,6 @@ packer.startup {
     -- show and trim trailing whitespaces
     use { "jdhao/whitespace.nvim", event = "VimEnter" }
 
-    -- file explorer
-    use {
-      "kyazdani42/nvim-tree.lua",
-      requires = { "kyazdani42/nvim-web-devicons" },
-      config = [[require('config.nvim-tree')]],
-    }
 
     use { "ii14/emmylua-nvim", ft = "lua" }
 

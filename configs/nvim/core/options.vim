@@ -52,7 +52,7 @@ set expandtab       " expand tab to spaces so that tabs are spaces
 " Set matching pairs of characters and highlight matching brackets
 set matchpairs+=<:>,「:」,『:』,【:】,“:”,‘:’,《:》
 
-set number relativenumber  " Show line number and relative line number
+set number  " Show line number and relative line number
 
 " Ignore case in general, but become case-sensitive when uppercase is present
 set ignorecase smartcase
@@ -146,7 +146,7 @@ set formatoptions+=mM
 set tildeop
 
 set synmaxcol=250  " Text after this column number is not highlighted
-set nostartofline
+set nostartofline 
 
 " External program to use for grep command
 if executable('rg')
