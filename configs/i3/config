@@ -7,35 +7,9 @@ include $HOME/.config/i3/graphics
 focus_follows_mouse no
 popup_during_fullscreen smart
 
-# resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        #bindsym Left resize shrink width 10 px or 10 ppt
-        #bindsym Down resize grow height 10 px or 10 ppt
-        #bindsym Up resize shrink height 10 px or 10 ppt
-        #bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
-}
-bindsym $mod+r mode "resize"
-
 # shutdown / restart / suspend...
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (CTRL+s) shutdown
-set $i3lockwall exec --no-startup-id 
+set $i3lockwall i3lock
 mode "$mode_system" {
     bindsym l exec --no-startup-id $i3lockwall, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
@@ -49,3 +23,5 @@ mode "$mode_system" {
 }
 bindsym $mod+Shift+BackSpace mode "$mode_system"
 bindsym $mod+Ctrl+Shift+l exec --no-startup-id $i3lockwall
+
+bindsym $mod+Shift+t exec i3-input -F 'exec --no-startup-id alacritty -e tmux attach-session -t %s' -l 2 -P 'Attach To : '

@@ -1,8 +1,12 @@
 # start a terminal
+bindsym $mod+t exec alacritty -e tmux
+bindsym $mod+r exec alacritty -e ranger
 bindsym $mod+Return exec alacritty
-
 # kill focused indow
+
+set $killtmux tmux kill-session
 bindsym $mod+q kill
+bindsym $mod+Shift+q "kill, exec $killtmux"
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id dmenu_run
@@ -110,4 +114,4 @@ floating_modifier $mod
 # or left-clicking anywhere into the window hile holding the floating modifier.
 tiling_drag modifier titlebar
 
-bindsym Print exec --no-startup-id flameshot gui 
+bindsym Print exec --no-startup-id flameshot gui
