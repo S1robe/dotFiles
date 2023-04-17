@@ -186,7 +186,7 @@ draw_bold_text_with_bright_colors: true
 
 colors:
   primary:
-    background: '#282a36'
+    background: '#070707'
     foreground: '#f8f8f2'
     bright_foreground: '#ffffff'
   cursor:
@@ -219,7 +219,7 @@ colors:
     text: CellForeground
     background: '#44475a'
   normal:
-    black: '#21222c'
+    black: '#000000'
     red: '#ff5555'
     green: '#50fa7b'
     yellow: '#f1fa8c'
