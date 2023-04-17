@@ -70,7 +70,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fzf archlinux copyfile copypath cp dircycle extract git gh colored-man-pages colorize command-not-found please rand-quote sdk rsync ripgrep web-search yum zsh-interactive-cd zsh-navigation-tools)
+plugins=(fzf archlinux copyfile copypath cp dircycle extract git gh colored-man-pages colorize command-not-found please rand-quote sdk rsync ripgrep web-search yum zsh-navigation-tools)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,5 +105,12 @@ source $ZSH/oh-my-zsh.sh
 export PATH="/home/owner/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/owner/Utilities/node-v14.15.4-linux-x64/bin"
 export PATH="$PATH:/home/owner/.local/share/JetBrains/Toolbox/scripts"
 export PATH="$PATH:/home/owner/Utilities/platform-tools/"
+export VISUAL=nvim
 export EDITOR=nvim
-source <(plz --completion_script)
+export RANGER_LOAD_DEFAULT_RC=FALSE
+
+PATH="/home/owner/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/owner/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/owner/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/owner/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/owner/perl5"; export PERL_MM_OPT;
