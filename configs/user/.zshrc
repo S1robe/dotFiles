@@ -100,17 +100,3 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
-# Added by me
-export PATH="/home/owner/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/owner/Utilities/node-v14.15.4-linux-x64/bin"
-export PATH="$PATH:/home/owner/.local/share/JetBrains/Toolbox/scripts"
-export PATH="$PATH:/home/owner/Utilities/platform-tools/"
-export VISUAL=nvim
-export EDITOR=nvim
-export RANGER_LOAD_DEFAULT_RC=FALSE
-
-PATH="/home/owner/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/owner/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/owner/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/owner/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/owner/perl5"; export PERL_MM_OPT;
