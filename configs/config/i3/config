@@ -4,7 +4,7 @@ include $HOME/.config/i3/autostarts
 include $HOME/.config/i3/keybinds
 include $HOME/.config/i3/graphics
 
-focus_follows_mouse no
+focus_follows_mouse yes
 popup_during_fullscreen smart
 
 # shutdown / restart / suspend...
