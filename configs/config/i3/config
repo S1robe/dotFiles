@@ -1,4 +1,7 @@
 set $mod Mod4
+set $browser librewolf
+set $terminal st
+set $editor nvim
 
 include $HOME/.config/i3/autostarts
 include $HOME/.config/i3/keybinds
