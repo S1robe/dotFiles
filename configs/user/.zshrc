@@ -100,3 +100,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+
+export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
+
+export PATH="$PATH:/opt/android-sdk/platform-tools"
+export PATH="$PATH:/opt/android-sdk/tools"
+

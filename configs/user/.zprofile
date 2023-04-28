@@ -1,6 +1,11 @@
 #Run me on startup
 
-#export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
+export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
+
+export PATH="$PATH:/opt/android-sdk/platform-tools"
+export PATH="$PATH:/opt/android-sdk/tools"
+
+
 
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -8,7 +13,7 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 export TERMINAL="st"
 export TERMINAL_PROG="st"
 export BROWSER="librewolf"
-export FONT="White\ Rabbit"
+export FONT="Monocraft\ Nerd\ Font"
 export FONTSIZE="14"
 export USRSHELL="$SHELL"
 
