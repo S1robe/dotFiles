@@ -14,7 +14,7 @@ export TERMINAL="st"
 export TERMINAL_PROG="st"
 export BROWSER="librewolf"
 export FONT="Monocraft\ Nerd\ Font"
-export FONTSIZE="14"
+export FONTSIZE="12"
 export USRSHELL="$SHELL"
 
 
