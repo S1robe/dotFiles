@@ -1,14 +1,14 @@
 
 
 # start a terminal
-bindsym $mod+t exec $TERMINAL -e tmux
+# bindsym $mod+t exec $TERMINAL -e tmux
 bindsym $mod+r exec $TERMINAL -e ranger 
-bindsym $mod+Return exec $TERMINAL
+bindsym $mod+Return exec $TERMINAL -e tmux
 # kill focused indow
 
 set $killtmux tmux kill-session
-bindsym $mod+q kill
-bindsym $mod+Shift+q "kill, exec $killtmux"
+# bindsym $mod+q kill
+bindsym $mod+q "kill, exec $killtmux"
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id dmenu_run
