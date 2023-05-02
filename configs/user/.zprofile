@@ -11,9 +11,9 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 export TERMINAL="st"
 export TERMINAL_PROG="st"
 export BROWSER="librewolf"
-export FONT="IBMPlexMono-Bold"
+export FONT="Coder\'s\ Crux"
 export DWMFONT="Monocraft\ Nerd\ Font"
-export FONTSIZE="12"
+export FONTSIZE="20"
 export USRSHELL="$SHELL"
 export PIPEWIRE_RUNTIME_DIR="/run/user/1000/pulse/native"
 
