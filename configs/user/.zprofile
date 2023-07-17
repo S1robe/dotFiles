@@ -18,17 +18,17 @@ export USRSHELL="$SHELL"
 export PIPEWIRE_RUNTIME_DIR="/run/user/1000/pulse/native"
 
 
+alias l="ls -llo"
+
+
 if [ -z ${DISPLAY} ] && [ "${XDG_VTNR}" -eq 1 ]; then
     startx
 fi
 
-xset r rate 300 50
-xset s 60
-
 
 if [ $(head -n 1 /etc/hostname) = "Core" ]; then
 
-xrandr --output DP-1 --off --output HDMI-1 --mode 1920x1080 --pos 3840x0 --rotate normal --output DP-1-0 --off --output DP-1-1 --off --output HDMI-1-0 --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1-4 --off --output DP-1-5 --off
+xrandr --output DP-1 --off --output HDMI-1 --mode 1920x1080 --pos 3840x0 --rotate normal --output DP-1-0 --off --output DP-1-1 --off --output HDMI-1-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-1-4 --off --output DP-1-5 --off
 
 fi
 

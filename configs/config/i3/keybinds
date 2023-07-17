@@ -108,4 +108,13 @@ floating_modifier $mod
 # or left-clicking anywhere into the window hile holding the floating modifier.
 tiling_drag modifier titlebar
 
+#Screenshotting
 bindsym Print exec --no-startup-id flameshot gui
+
+#Copy and paste overwriting
+
+
+
+#Bookmarking anytext that can make it to the clipboard
+bindsym $mod+b exec bookmark -s
+bindsym $mod+Shift+b exec bookmark -r

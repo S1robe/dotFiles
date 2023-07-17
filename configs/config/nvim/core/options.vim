@@ -45,9 +45,11 @@ set backupcopy=yes  " copy the original file to backupdir and overwrite it
 
 " General tab settings
 set tabstop=2       " number of visual spaces per TAB
-set softtabstop=2   " number of spaces in tab when editing
-set shiftwidth=2    " number of spaces to use for autoindent
+set softtabstop=0   " number of spaces in tab when editing
+set shiftwidth=0    " number of spaces to use for autoindent
 set expandtab       " expand tab to spaces so that tabs are spaces
+set smartindent
+
 
 " Set matching pairs of characters and highlight matching brackets
 set matchpairs+=<:>,「:」,『:』,【:】,“:”,‘:’,《:》
@@ -80,7 +82,7 @@ set mousescroll=ver:1,hor:6
 " Disable showing current mode on command line since statusline plugins can show it.
 set noshowmode
 
-set fileformats=unix,dos  " Fileformats to use for new files
+set fileformats=txt,unix  " Fileformats to use for new files
 
 " Ask for confirmation when handling unsaved or read-only files
 set confirm
@@ -134,7 +136,7 @@ set spellsuggest+=9  " show 9 spell suggestions at most
 
 " Align indent to next multiple value of shiftwidth. For its meaning,
 " see http://vim.1045645.n5.nabble.com/shiftround-option-td5712100.html
-set shiftround
+" set shiftround
 
 set virtualedit=block  " Virtual edit is useful for visual block edit
 
@@ -177,5 +179,3 @@ set diffopt+=closeoff  " turn off diff when one file window is closed
 set diffopt+=context:3  " context for diff
 set diffopt+=internal,indent-heuristic,algorithm:histogram
 
-set nowrap  " do no wrap
-set noruler

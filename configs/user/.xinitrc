@@ -51,7 +51,16 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 if [ $(head -n 1 /etc/hostname) = "Core" ]; then
+    
+
+    xset -dpms # no sleepy monitors
+    xset r rate 300 50 # key refresh rate
+    xset s 60       # spacing rate
+    xset -b         # disable bell
+    setxkbmap -option terminate:ctrl_alt_bksp # zapping 
+
     exec i3
+
 fi
 
 
