@@ -1,0 +1,76 @@
+#!/bin/bash
+STRGDIR="$HOME/.local/share/bookmarks"
+if ! [ -f "$STRGDIR" ]; then 
+	mkdir --parent "$STRGDIR" || exit
+fi
+
+
+#IF bookmark -s then we are storing and should use this format
+if [ "$1" = "-s" ]; then
+	#Bookmark whatever you had selected.
+	#List of files that we use to store the things
+	LOCS=$(ls "$STRGDIR")
+	SELECTION=$(echo "$LOCS" | dmenu -l 5 -p "Select or Create File to Save to:")
+	
+	#Give me the contnt from primary register
+	CONTENT=$(xclip -o)
+	BKMRKS=$(awk -F: '{print $1}' "$STRGDIR/$SELECTION")
+	NAME=$(echo "$BKMRKS" | dmenu -l 5 -p "Name of Bookmark:")
+
+	#Create the file if it doenst exist
+	if ! [ -f "$STRGDIR/$SELECTION" ]; then
+		touch "$STRGDIR/$SELECTION"
+		echo "$NAME:$CONTENT" >> "$STRGDIR/$SELECTION"
+	else 
+	# Check to see if the name specified is a bookmark
+		case $NAME in 
+			*$BKMRKS*)
+			NAMECNT=$(dmenu -p "$NAME already exists. Replace (Y/n)")
+			#Get old data from bookmark and put it on clipboard
+			awk '/'"$NAME"'\:/ {print}' | xclip -selection clipboard
+
+			# IF Y selected then overwrite it w/ sed
+			if ! [ "$NAMECNT" == "y" ] && ! [ "$NAMECNT" == "Y" ]; then
+				dunstify -a Bookmark "Bookmark canceled."
+				exit 0
+			fi
+
+			#Replace old entry
+			sed -i 's/&'"$NAME"'\:.*/'"$CONTENT"'/' "$STRGDIR/$SELECTION"
+				;;
+			*)
+			echo "$NAME:$CONTENT" >> "$STRGDIR/$SELECTION"
+				;;
+		esac
+	fi
+	
+	dunstify -a Bookmark "Bookmark $NAME Saved to $STRGDIR/$SELECTION"
+
+#If bookmark -r then we are retrieving from the file
+elif [ "$1" = "-r" ]; then
+	#List of files that we use to store the things
+	LOCS=$(ls "$STRGDIR")
+	SELECTION=$(echo "$LOCS" | dmenu -l 5 -p "Select File for Bookmark: ")
+	LOCS=${LOCS//$'\n'/ }
+	
+	dunstify -a Bookmark "$LOCS\n$SELECTION"
+	case $SELECTION in
+		*$LOCS*)
+		BKMRKS=$( awk -F: '{print $1}' "$STRGDIR/$SELECTION")
+		NAME=$(echo "$BKMRKS" | dmenu -l 5 -p "Name of Bookmark:")
+		sed 's/^'"$NAME"'://' | xclip -selection clipboard
+		if [ -z "$CONTENT" ]; then
+			dunstify -a Bookmark "Bookmark $NAME not found in $STRGDIR/$SELECTION"
+			exit 0
+		fi
+			;;
+		*)
+		dunstify -a Bookmark "No such file found."
+		exit 0
+			;;
+	esac
+	
+	dunstify -a Bookmark "Bookmark placed on clipboard"
+
+fi
+
