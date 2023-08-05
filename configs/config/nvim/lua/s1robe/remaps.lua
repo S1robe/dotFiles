@@ -1,6 +1,8 @@
 vim.keymap.set("n", "<leader>sq", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>q", vim.cmd.E)
 
+vim.keymap.set({"n", "i"}, "<C-s>", vim.cmd.w)
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -15,7 +17,6 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- copy to sys clip with spacey
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
-
 
 -- allow visual block save changes
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
