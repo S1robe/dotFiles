@@ -11,12 +11,6 @@ source "$HOME/.zprofile"
 
 if [ -f $sysresources ]; then
 
-
-
-
-
-
-
     xrdb -merge $sysresources
 
 fi
@@ -26,13 +20,6 @@ if [ -f $sysmodmap ]; then
 fi
 
 if [ -f "$userresources" ]; then
-
-
-
-
-
-
-
     xrdb -merge "$userresources"
 
 fi
@@ -49,10 +36,5 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  done
  unset f
 fi
-
-xset -dpms # no sleepy monitors
-xset r rate 300 50 # key refresh rate
-xset s 60       # spacing rate
-xset -b         # disable bell
 
 exec startplasma-x11
