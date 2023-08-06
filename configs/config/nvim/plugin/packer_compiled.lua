@@ -159,6 +159,11 @@ _G.packer_plugins = {
     path = "/home/owner/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["presence.nvim"] = {
+    loaded = true,
+    path = "/home/owner/.local/share/nvim/site/pack/packer/start/presence.nvim",
+    url = "https://github.com/andweeb/presence.nvim"
+  },
   ["refactoring.nvim"] = {
     loaded = true,
     path = "/home/owner/.local/share/nvim/site/pack/packer/start/refactoring.nvim",

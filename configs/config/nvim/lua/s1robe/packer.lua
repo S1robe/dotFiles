@@ -52,4 +52,5 @@ return require('packer').startup(function(use)
 
   use {'ThePrimeagen/refactoring.nvim'}
   use {'folke/trouble.nvim'}
+  use {'andweeb/presence.nvim'}
 end)
