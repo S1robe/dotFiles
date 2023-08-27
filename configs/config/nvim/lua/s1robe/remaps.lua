@@ -19,7 +19,6 @@ vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- allow visual block save changes
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 -- quick fixes from troub;e
@@ -30,7 +29,3 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- replace word that is ofund that were on.
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end)

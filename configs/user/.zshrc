@@ -106,3 +106,4 @@ export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
 export PATH="$PATH:/opt/android-sdk/platform-tools"
 export PATH="$PATH:/opt/android-sdk/tools"
 
+export PATH=$PATH:/home/owner/.spicetify
