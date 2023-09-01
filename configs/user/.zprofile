@@ -22,10 +22,6 @@ if [ -z ${DISPLAY} ] && [ "${XDG_VTNR}" -eq 1 ]; then
     startx
 fi
 
-xset r rate 250 50 # key refresh rate
-xset s 60       # spacing rate
-xset -b         # disable bell
-
 
 if [ $(head -n 1 /etc/hostname) = "Core" ]; then
     source "$HOME"/.screenlayout/verticalplasma.sh
