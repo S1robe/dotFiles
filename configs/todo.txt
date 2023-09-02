@@ -1,0 +1,1 @@
+make script to auto deploy these packages to windows.
