@@ -23,6 +23,6 @@ if [ -z ${DISPLAY} ] && [ "${XDG_VTNR}" -eq 1 ]; then
 fi
 
 
-if [ $(head -n 1 /etc/hostname) = "Core" ]; then
+if [ $(head -n 1 /etc/hostname) = "stationery" ]; then
     source "$HOME"/.screenlayout/verticalplasma.sh
 fi
