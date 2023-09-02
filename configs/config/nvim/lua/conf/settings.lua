@@ -1,4 +1,5 @@
-vim.g.mapleader = " "
+vim.cmd("colorscheme habamax")
+
 vim.opt.guicursor = ""
 
 vim.opt.nu = true
@@ -15,7 +16,8 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.nvim/undodir"
+
+vim.opt.undodir = vim.env.HOME .. "/.nvim/undodir"
 vim.opt.undofile = true
 
 vim.opt.hlsearch = false
