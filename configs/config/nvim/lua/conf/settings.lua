@@ -1,4 +1,4 @@
-vim.g.colorscheme = "habamax"
+vim.cmd("colorscheme habamax")
 
 vim.opt.guicursor = ""
 
