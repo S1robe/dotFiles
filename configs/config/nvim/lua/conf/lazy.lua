@@ -22,7 +22,7 @@ require("lazy").setup({
 			'nvim-lua/plenary.nvim',
 		},
 	},
-	{ 'nvim-treesitter/nvim-treesitter',  build = 'TSUpdate' },
+	{ 'nvim-treesitter/nvim-treesitter',  build = ':TSUpdate' },
 	{ 'nvim-treesitter/playground' },
 
 	{ 'ThePrimeagen/harpoon'},
