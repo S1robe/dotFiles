@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# User Selects isntallation drive
+echo -ne "Hi there, welcome to the install script for Arch Linux.\n\
+    This script should in theory provide you a fully working install.\n\
+    \\n
+    \
+    Lets get started.\n\
+    Not all drives will be listed, only disks will be shown\n\
+    Only those that are the actual disk, and 
+    Please pick your desired install drive\n\
+    You only need to specify the end name, EX \"nvme01\"\n\
+
+    "
+lsblk -
+read -ne INSTALLDRIVE
+
+echo -ne "Please make sure that /dev/`INSTALLDRIVE` not being used.\n\
+    Continue (y/N)"
+
+# Update the deivce name 
+INSTALLDRIVE="/dev/`INSTALLDRIVE`"
+
+# Make sure that the device actually exists and is unmount and ready
+
