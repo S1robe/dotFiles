@@ -70,7 +70,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fzf archlinux copyfile copypath cp dircycle extract git gh colored-man-pages colorize command-not-found please rand-quote sdk rsync ripgrep web-search yum zsh-navigation-tools)
+plugins=(fzf extract git gh colored-man-pages colorize command-not-found rand-quote ripgrep zsh-navigation-tools)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,10 +100,3 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
-export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
-
-export PATH="$PATH:/opt/android-sdk/platform-tools"
-export PATH="$PATH:/opt/android-sdk/tools"
-
-export PATH=$PATH:/home/owner/.spicetify

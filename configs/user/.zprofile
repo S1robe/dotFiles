@@ -1,28 +1,12 @@
-#Run me on startup
+# This is for settings and options
 
-export PATH="$PATH$(find ~/.local/bin -type d -printf :%p)"
-
-export EDITOR="nvim"
-export VISUAL="nvim"
-export BROWSER="brave"
-export RANGER_LOAD_DEFAULT_RC=FALSE
-export TERMINAL="st"
-export TERMINAL_PROG="st"
-export FONT="Monocraft\ Nerd\ Font"
-export DWMFONT="Monocraft\ Nerd\ Font"
-export FONTSIZE="16"
-export USRSHELL="$SHELL"
-export PIPEWIRE_RUNTIME_DIR="/run/user/1000/pulse/native"
-
-
-alias l="ls -llo"
-
-
+# If Display isnt set (being used already) then start the xserver 
 if [ -z ${DISPLAY} ] && [ "${XDG_VTNR}" -eq 1 ]; then
     startx
 fi
 
+# Custom Aliases
+alias l="ls -llo"
 
-if [ $(head -n 1 /etc/hostname) = "stationery" ]; then
-    source "$HOME"/.screenlayout/verticalplasma.sh
-fi
+# Either runs and configures the monitors or does nothing
+source "$HOME"/.screenlayout/verticalplasma.sh 2> /dev/null 1> /dev/null 0> /dev/null
