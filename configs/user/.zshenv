@@ -7,6 +7,7 @@ export PATH="$PATH$(find $HOME/.local/bin -type d -printf :%p)"
 # like ranger or visudo
 export EDITOR="nvim"
 export VISUAL="nvim"
+export FILEMGR="dolphin"
 
 # This is used for i3, sterm and slock
 export BROWSER="brave"
@@ -28,3 +29,4 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # Spicetify
 export PATH=$PATH:/home/owner/.spicetify
+source $HOME/.zprofile
