@@ -1,7 +1,7 @@
 
 
 # start a terminal
-bindsym $mod+Return exec $TERMINAL
+bindsym $mod+Return exec $TERMINAL 
 bindsym $mod+r exec $FILEMGR
 bindsym $mod+Shift+Return exec $TERMINAL -e tmux
 # kill focused indow
@@ -118,5 +118,9 @@ bindsym Print exec --no-startup-id flameshot gui
 #Bookmarking anytext that can make it to the clipboard
 bindsym $mod+b exec bookmark -s
 bindsym $mod+Shift+b exec bookmark -r
+
+#Back light for laptops
 bindsym XF86MonBrightnessUp exec brightnessctl set 1%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
+
+

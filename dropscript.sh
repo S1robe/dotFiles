@@ -30,6 +30,6 @@ do
 done
 
 # Check if sudo exists
-#SUDO=$(which -a sudo | grep "not" | -z -)
-#ISSU=$()
-
+#if ! [ -z $(which -a sudo | grep "not") ] && [ ]; then
+    # sudo exists
+#fi
