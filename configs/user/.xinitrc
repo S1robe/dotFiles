@@ -40,7 +40,6 @@ fi
 
 # X-server specific settings
 
-xset r rate 250 50 # key refresh rate
 xset -b         # disable bell
 xset -dpms       # dynamic power management system
 xset s 300      # sleep 5 minutes
