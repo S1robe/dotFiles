@@ -22,6 +22,6 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 bindsym $mod+Shift+BackSpace mode "$mode_system"
-bindsym $mod+Ctrl+Shift+l exec --no-startup-id $i3lockwall
+bindsym $mod+Alt+Shift+l exec --no-startup-id $i3lockwall
 
 bindsym $mod+Shift+t exec i3-input -F 'exec --no-startup-id st -e tmux attach-session -t %s' -l 2 -P 'Attach To : '
