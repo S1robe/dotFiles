@@ -1,35 +1,50 @@
 #!/bin/sh
 
-# Link all config files to $HOME/.config
-cd configs/config
+BINDIR="./binaries"
+FONTDIR="./fonts"
 
-for i in *
-do
-    # Make symbolic interactive link, do not force.
-	ln -si "$PWD/${i##*/}" "$HOME/.config/${i##*/}"
-done
+echo "I should be run in the same directory as my configs. 
+This script is intended to be a clone & run type script.
+Press <enter> to continue if you're sure..."
 
-# Link all user profile files
-cd ../user
+read 
 
-for i in ./.*
-do
-	ln -si "$PWD/${i##*/}" "$HOME/${i##*/}"
-done
-
-# Link the binaries to $HOME/.local/bin 
-cd ../binaries
-
-if ! [ -f "$HOME/.local/bin" ]; then 
-	mkdir -p "$HOME/.local/bin"
+if ! [ -d "dotConfigFiles" ] || ! [ -d "homeDotFiles" ]; then
+    echo "config directories not found, aborting.
+    expected to find './dotConfigfiles' & './homeDotFiles'"
+    exit 0
 fi
 
-for i in ./.*
-do
-	ln -si "$PWD/${i##*/}" "$HOME/.local/bin/${i##*/}"
+clear
+
+echo "Making config directories if needed..."
+if ! [ -d "$HOME"/.config ]; then 	mkdir --parents -v "$HOME"/.config; fi
+if ! [ -d "$HOME"/.local ]; then	mkdir --parents -v "$HOME"/.local/{bin,src,share}; fi
+
+set -x
+trap read debug
+# Link all config files to $HOME/.config
+cd dotConfigFiles
+for fle in ./*
+do 	
+	fle=${fle##*/}
+	ln -sf "$PWD/$fle" "$HOME/.config/$fle"
 done
 
-# Check if sudo exists
-#if ! [ -z $(which -a sudo | grep "not") ] && [ ]; then
-    # sudo exists
+cd ../homeDotFiles
+for fle in $(ls -lA | awk '{print $9}')
+do	
+	fle=${fle##*/}
+	ln -sf "$PWD/$fle" "$HOME/$fle" 
+done
+
+cd ..
+# Link custom binaries to the users local bin path.
+ln -s "$BINDIR" "$HOME/.local/bin/cbin"
+
+# Link fonts to the local fonts directory
+#if ! [ -d "$HOME/.local/bin/share/fonts" ]; then
+#	ln -s "$FONTDIR" "$HOME/.local/bin/share/fonts"
+#else
+#	ln -s "$FONTDIR" "$HOME/.local/bin/share/fonts/cfonts"
 #fi
