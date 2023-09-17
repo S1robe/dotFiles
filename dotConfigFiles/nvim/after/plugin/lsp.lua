@@ -4,7 +4,6 @@ lsp.preset('recommended')
 
 lsp.nvim_workspace()
 
-
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp.defaults.cmp_mappings({
@@ -18,7 +17,7 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
 vim.keymap.set("i", "<C-space>", cmp.mapping.complete())
 
 lsp.set_preferences({
-    suggest_lsp_servers = false,
+    suggest_lsp_servers = true,
     sign_icons = {
         error = 'E',
         warn = 'W',

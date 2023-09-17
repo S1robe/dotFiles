@@ -14,8 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 -- this needs to be here first so that it will work.
 vim.g.mapleader = " "
 
-
-require("lazy").setup({
+local lazy = require("lazy").setup({
 	{
 		'nvim-telescope/telescope.nvim',
 		dependencies = {
