@@ -35,13 +35,13 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 bindsym $mod+Ctrl+l resize shrink width 5 px 
-bindsym $mod+Ctrl+j resize grow height 5 px
-bindsym $mod+Ctrl+k resize shrink height 5 px
+bindsym $mod+Ctrl+k resize grow height 5 px
+bindsym $mod+Ctrl+j resize shrink height 5 px
 bindsym $mod+Ctrl+h resize grow width 5 px
 
 bindsym $mod+Ctrl+Shift+l resize shrink width 1 px
-bindsym $mod+Ctrl+Shift+j resize grow height 1 px
-bindsym $mod+Ctrl+Shift+k resize shrink height 1 px
+bindsym $mod+Ctrl+Shift+k resize grow height 1 px
+bindsym $mod+Ctrl+Shift+j resize shrink height 1 px
 bindsym $mod+Ctrl+Shift+h resize grow width 1 px
 
 bindsym $mod+w exec $BROWSER
@@ -128,7 +128,7 @@ bindsym $mod+b exec bookmark -s
 bindsym $mod+Shift+b exec bookmark -r
 
 #Back light for laptops
-bindsym XF86MonBrightnessUp exec brightnessctl set 1%+
-bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
+bindsym XF86MonBrightnessUp exec brightnessctl set 3%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 3%-
 
 
