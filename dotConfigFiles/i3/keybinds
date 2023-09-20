@@ -1,6 +1,7 @@
 # start a terminal
 bindsym $mod+Return exec $TERMINAL 
 bindsym $mod+r exec $FILEMGR
+bindsym $mod+Shift+d exec $TERMINAL -e ranger
 bindsym $mod+Shift+Return exec $TERMINAL -e tmux
 # kill focused indow
 
