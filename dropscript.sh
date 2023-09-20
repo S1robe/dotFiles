@@ -21,8 +21,6 @@ echo "Making config directories if needed..."
 if ! [ -d "$HOME"/.config ]; then 	mkdir --parents -v "$HOME"/.config; fi
 if ! [ -d "$HOME"/.local ]; then	mkdir --parents -v "$HOME"/.local/{bin,src,share}; fi
 
-set -x
-trap read debug
 # Link all config files to $HOME/.config
 cd dotConfigFiles
 for fle in ./*
