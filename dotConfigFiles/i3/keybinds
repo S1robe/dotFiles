@@ -2,7 +2,7 @@
 bindsym $mod+Return exec $TERMINAL 
 bindsym $mod+r exec $FILEMGR
 bindsym $mod+Shift+d exec $TERMINAL -e ranger
-bindsym $mod+Shift+Return exec $TERMINAL -e tmux
+bindsym Mod1+Return exec $TERMINAL -e tmux
 # kill focused indow
 
 bindsym $mod+q kill
@@ -20,12 +20,6 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
-#bindsym $mod+Left focus left
-#bindsym $mod+Down focus down
-#bindsym $mod+Up focus u
-#bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -131,11 +125,11 @@ bindsym XF86MonBrightnessUp exec brightnessctl set 3%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 3%-
 
 # TMux specific stuff
-# bindsym Mod1+1 exec $TERMINAL -e tmux new-session -At 0
-# bindsym Mod1+2 exec $TERMINAL -e tmux new-session -At 1
-# bindsym Mod1+3 exec $TERMINAL -e tmux new-session -At 2
-# bindsym Mod1+4 exec $TERMINAL -e tmux new-session -At 3
-# bindsym Mod1+\! exec $TERMINAL -e tmux new-session -At 4
-# bindsym Mod1+\@ exec $TERMINAL -e tmux new-session -At 5
-# bindsym Mod1+\# exec $TERMINAL -e tmux new-session -At 6
-# bindsym Mod1+\$ exec $TERMINAL -e tmux new-session -At 7
+bindsym Mod1+1 exec $TERMINAL -e tmux new-session -A -t 0
+bindsym Mod1+2 exec $TERMINAL -e tmux new-session -A -t 1
+bindsym Mod1+3 exec $TERMINAL -e tmux new-session -A -t 2
+bindsym Mod1+4 exec $TERMINAL -e tmux new-session -A -t 3
+bindsym Mod1+\! exec $TERMINAL -e tmux new-session -A -t 4
+bindsym Mod1+\@ exec $TERMINAL -e tmux new-session -A -t 5
+bindsym Mod1+\# exec $TERMINAL -e tmux new-session -A -t 6
+bindsym Mod1+\$ exec $TERMINAL -e tmux new-session -A -t 7
