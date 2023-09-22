@@ -1,2 +1,3 @@
+# ignore the lazy-lock.json to not break stuff
 dotConfigFiles/nvim/lazy-lock.json
 

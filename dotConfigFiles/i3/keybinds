@@ -5,9 +5,7 @@ bindsym $mod+Shift+d exec $TERMINAL -e ranger
 bindsym $mod+Shift+Return exec $TERMINAL -e tmux
 # kill focused indow
 
-set $killtmux tmux kill-session
 bindsym $mod+q kill
-bindsym $mod+Shift+q "kill, exec $killtmux"
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id dmenu_run
@@ -132,4 +130,12 @@ bindsym $mod+Shift+b exec bookmark -r
 bindsym XF86MonBrightnessUp exec brightnessctl set 3%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 3%-
 
-
+# TMux specific stuff
+# bindsym Mod1+1 exec $TERMINAL -e tmux new-session -At 0
+# bindsym Mod1+2 exec $TERMINAL -e tmux new-session -At 1
+# bindsym Mod1+3 exec $TERMINAL -e tmux new-session -At 2
+# bindsym Mod1+4 exec $TERMINAL -e tmux new-session -At 3
+# bindsym Mod1+\! exec $TERMINAL -e tmux new-session -At 4
+# bindsym Mod1+\@ exec $TERMINAL -e tmux new-session -At 5
+# bindsym Mod1+\# exec $TERMINAL -e tmux new-session -At 6
+# bindsym Mod1+\$ exec $TERMINAL -e tmux new-session -At 7
