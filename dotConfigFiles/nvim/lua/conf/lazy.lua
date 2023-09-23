@@ -53,5 +53,6 @@ local lazy = require("lazy").setup({
 	{'ThePrimeagen/refactoring.nvim'},
 	{'folke/trouble.nvim'},
 	{'andweeb/presence.nvim'},
+    {'klen/nvim-test'}
 })
 
