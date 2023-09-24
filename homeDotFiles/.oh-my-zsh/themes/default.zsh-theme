@@ -2,7 +2,7 @@
 
 RCOL="%{$reset_color%}"
 PURPLE="%F{#bca6ec}"
-GRAY="%F{#666666}"
+GRAY="%F{#999999}"
 GREEN="%F{#a3c899}"
 ORANGE="%F{#FF8C25}"
 SEP="|"
