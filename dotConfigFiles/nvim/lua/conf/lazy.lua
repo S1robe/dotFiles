@@ -53,6 +53,14 @@ local lazy = require("lazy").setup({
 	{'ThePrimeagen/refactoring.nvim'},
 	{'folke/trouble.nvim'},
 	{'andweeb/presence.nvim'},
-    {'klen/nvim-test'}
-})
+    {'klen/nvim-test'},
+    {
+        'akinsho/flutter-tools.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'stevearc/dressing.nvim', -- optional for vim.ui.select
+        },
+        config = true,
+    } 
 
+});
