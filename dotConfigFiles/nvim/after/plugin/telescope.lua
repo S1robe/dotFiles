@@ -9,3 +9,4 @@ vim.keymap.set('n', '<leader>sg', builtin.git_files, {})
 
 -- Finds the search text in the current tree directory files
 vim.keymap.set('n', '<leader>sp', builtin.live_grep, {} )
+

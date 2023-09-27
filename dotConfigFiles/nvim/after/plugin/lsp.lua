@@ -1,24 +1,21 @@
-local lsp = require('lsp-zero')
-
-lsp.preset('recommended')
-
-lsp.nvim_workspace()
-
-
-local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-y>'] = cmp.mapping.confirm({ select = true }),
-})
-
--- Had to add this because the binding through cmp doesnt work for some reason
--- enable ctrl + space to give me suggestions
-vim.keymap.set("i", "<C-space>", cmp.mapping.complete())
-
-lsp.set_preferences({
-    suggest_lsp_servers = false,
+local lsp = require('lsp-zero').preset({
+    name = 'recommended',
+    suggest_lsp_servers = true,
+--    ensure_installed = {
+--        'html',
+--        'python',
+--        'java', 
+--        'c', 
+--        'cpp',
+--        'rust',
+--        'ts', 
+--        'js',
+--        'lua',
+--        'dart',
+--        'flutter',
+--        'bash',
+--        'powershell'
+--    }
     sign_icons = {
         error = 'E',
         warn = 'W',
@@ -26,6 +23,11 @@ lsp.set_preferences({
         info = 'I'
     }
 })
+ 
+-- lsp.nvim_workspace()
+
+local cmp = require('cmp')
+vim.keymap.set("i", "<C-space>", cmp.mapping.complete())
 
 lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
@@ -43,7 +45,6 @@ lsp.on_attach(function(client, bufnr)
 end)
 
 lsp.setup()
-
 vim.diagnostic.config({
     virtual_text = true
 })

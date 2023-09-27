@@ -14,8 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 -- this needs to be here first so that it will work.
 vim.g.mapleader = " "
 
-
-require("lazy").setup({
+local lazy = require("lazy").setup({
 	{
 		'nvim-telescope/telescope.nvim',
 		dependencies = {
@@ -32,7 +31,6 @@ require("lazy").setup({
 
 	{
 		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v2.x',
 		dependencies = {
 			-- LSP Support
 			'neovim/nvim-lspconfig',             -- Required
@@ -55,5 +53,14 @@ require("lazy").setup({
 	{'ThePrimeagen/refactoring.nvim'},
 	{'folke/trouble.nvim'},
 	{'andweeb/presence.nvim'},
-})
+    {'klen/nvim-test'},
+    {
+        'akinsho/flutter-tools.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'stevearc/dressing.nvim', -- optional for vim.ui.select
+        },
+        config = true,
+    } 
 
+});
