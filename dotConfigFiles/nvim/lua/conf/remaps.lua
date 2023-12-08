@@ -29,3 +29,4 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- replace word that is ofund that were on.
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+

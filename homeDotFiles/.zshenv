@@ -10,7 +10,7 @@ export VISUAL="nvim"
 export FILEMGR="dolphin"
 
 # This is used for i3, sterm and slock
-export BROWSER="brave"
+export BROWSER="mercury-browser"
 export TERMINAL="st"
 export TERMINAL_PROG="st"
 
@@ -29,4 +29,4 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # Spicetify
 export PATH=$PATH:/home/owner/.spicetify
-source $HOME/.zprofile
+export PATH=$PATH:/opt/flutter/bin

@@ -61,6 +61,5 @@ local lazy = require("lazy").setup({
             'stevearc/dressing.nvim', -- optional for vim.ui.select
         },
         config = true,
-    } 
-
+    },
 });
