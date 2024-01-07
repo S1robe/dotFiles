@@ -3,8 +3,11 @@ bindsym $mod+Return exec $TERMINAL
 bindsym $mod+r exec $FILEMGR
 bindsym $mod+Shift+d exec $TERMINAL -e ranger
 bindsym Mod1+Return exec $TERMINAL -e tmux
-# kill focused indow
 
+#Alt Tab controls
+bindsym $mod+Tab exec rofi -show window
+
+# kill focused indow
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)

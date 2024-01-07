@@ -108,4 +108,3 @@ xset r rate 250 50 # key refresh rate
 
 # Custom Aliases
 alias l="ls -llo"
-alias pvpn="protonvpn-cli"

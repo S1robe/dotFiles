@@ -54,12 +54,4 @@ local lazy = require("lazy").setup({
 	{'folke/trouble.nvim'},
 	{'andweeb/presence.nvim'},
     {'klen/nvim-test'},
-    {
-        'akinsho/flutter-tools.nvim',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'stevearc/dressing.nvim', -- optional for vim.ui.select
-        },
-        config = true,
-    },
 });
