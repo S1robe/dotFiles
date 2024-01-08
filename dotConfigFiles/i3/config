@@ -9,12 +9,12 @@ popup_during_fullscreen smart
 
 # shutdown / restart / suspend...
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (CTRL+s) shutdown
-set $i3lockwall i3lock -c ffffff
+set $i3lockwall i3lock -c 000000
 mode "$mode_system" {
     bindsym l exec --no-startup-id $i3lockwall, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $i3lockwall && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
+   # bindsym s exec --no-startup-id $i3lockwall && systemctl suspend, mode "default"
+   # bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
@@ -22,6 +22,3 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 bindsym $mod+Shift+BackSpace mode "$mode_system"
-bindsym $mod+Alt+Shift+l exec --no-startup-id $i3lockwall
-
-bindsym $mod+Shift+t exec i3-input -F 'exec --no-startup-id st -e tmux attach-session -t %s' -l 2 -P 'Attach To : '

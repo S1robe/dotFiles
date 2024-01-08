@@ -1,0 +1,23 @@
+[dunst]
+command=./dunst
+interval=once
+align=center
+
+[network]
+command=./network
+color=#00FF00
+interval=30
+# set this to 1 to display the name of the connected WIFI interface instead of the IP address.
+display_wifi_name=0
+
+[volume]
+command=./volume
+#LABEL=♪ 
+LABEL=VOL 
+interval=once
+signal=10
+
+[calendar]
+command=./calendar
+interval=1
+
