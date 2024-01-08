@@ -11,11 +11,11 @@ export FILEMGR="dolphin"
 
 # This is used for i3, sterm and slock
 export BROWSER="mercury-browser"
-export TERMINAL="st"
-export TERMINAL_PROG="st"
+export TERMINAL="xterm"
+export TERMINAL_PROG="xterm"
 
 # This is used by sterm and slock for compliation.
-export FONT="Monocraft\ Nerd\ Font"
+#export FONT="Monocraft\ Nerd\ Font"
 export FONTSIZE="16"
 export USRSHELL="$SHELL"
 

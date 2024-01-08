@@ -9,7 +9,7 @@ popup_during_fullscreen smart
 
 # shutdown / restart / suspend...
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (CTRL+s) shutdown
-set $i3lockwall i3lock
+set $i3lockwall i3lock -c ffffff
 mode "$mode_system" {
     bindsym l exec --no-startup-id $i3lockwall, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"

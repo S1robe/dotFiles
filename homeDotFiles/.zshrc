@@ -73,7 +73,7 @@ ENABLE_CORRECTION="true"
 # ruby lighthouse) Add wisely, as too many plugins slow down shell
 # startup.
 plugins=(fzf extract git gh colored-man-pages command-not-found
-    rand-quote ripgrep zsh-navigation-tools)
+    ripgrep zsh-navigation-tools)
 
     source $ZSH/oh-my-zsh.sh
 
@@ -105,6 +105,8 @@ unsetopt BEEP
 
 #X-options
 xset r rate 250 50 # key refresh rate
+
+
 
 # Custom Aliases
 alias l="ls -llo"

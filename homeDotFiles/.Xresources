@@ -1,0 +1,33 @@
+!save history
+xterm*SaveLines: 9000
+
+! This should fix the alt
+xterm*eightBitInput: false
+xterm*eightBitOutput: true
+
+
+! Font
+xterm*faceName: Fixed:size=12
+
+! Colors
+xterm*background: #000000
+xterm*foreground: #ffffff
+xterm*scrollBar: true
+xterm*rightScrollBar: true
+
+! fix backspace
+xterm*vt100.backarrowKey: false
+xterm*ttyModes: erase ^?
+
+! Other cool things
+xterm*utf8: 1
+
+! Resize controls
+xterm*vt100.translations: #override \n\
+  Ctrl <Key>+: larger-vt-font() \n\
+  Ctrl <Key>-: smaller-vt-font() \n\
+  Ctrl <Key>0: set-vt-font(d) \n\
+  Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+  Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+
+
