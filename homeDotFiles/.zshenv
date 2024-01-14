@@ -22,7 +22,7 @@ export USRSHELL="$SHELL"
 # Program specific settings
 
 # Pipewire, but for libvirt
-export PIPEWIRE_RUNTIME_DIR="/run/user/1000/pulse/native"
+export PIPEWIRE_RUNTIME_DIR="/run/user/1000/"
 
 # Ranger file manager
 export RANGER_LOAD_DEFAULT_RC=FALSE
