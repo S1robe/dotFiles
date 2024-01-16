@@ -10,7 +10,7 @@ export VISUAL="nvim"
 export FILEMGR="dolphin"
 
 # This is used for i3, sterm and slock
-export BROWSER="mercury-browser"
+export BROWSER="brave"
 export TERMINAL="xterm"
 export TERMINAL_PROG="xterm"
 

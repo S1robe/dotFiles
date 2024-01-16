@@ -1,1 +1,0 @@
-(Parameter.set 'Audio_Command "paplay $FILE --client-name=Festival --stream-name=Speech")

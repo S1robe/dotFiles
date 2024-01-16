@@ -37,6 +37,7 @@ do
 done
 
 cd ..
+mkdir "$HOME/.local/bin/cbin"
 # Link custom binaries to the users local bin path.
 ln -s "$BINDIR" "$HOME/.local/bin/cbin"
 

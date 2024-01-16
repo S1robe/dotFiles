@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 STRGDIR="$HOME/.local/share/bookmarks"
 if ! [ -f "$STRGDIR" ]; then 
 	mkdir --parent "$STRGDIR" || exit
@@ -11,35 +11,43 @@ command -v dunstify >/dev/null 2>&1 || { echo >&2 "dunstify is required."; }
 
 if [ -z "$1" ] || [ "$1" = "-s" ]; then
   # Bookmarking
-  CHOICE=$( ls "$STRGDIR" | demnu -l 5 -p "Select or Create File to save to:" )
+  CHOICE=$( ls "$STRGDIR" | dmenu -l 5 -p "Select or Create File to save to:" )
+  # Replace spaces with underscore.
+  CHOICE=${CHOICE// /_}
 
   if [ "$CHOICE" = 0 ]; then
 				dunstify -a Bookmark "Bookmark canceled."
 				exit 0
   fi
-
+  touch "$STRGDIR/$CHOICE"
   # Get highlighted text (Primary register)
-  CNTNT=$(xclip -selection "primary")
+  CNTNT=$(xclip -o)
+  if [ -z "$CNTNT" ]; then 
+    dunstify -a Bookmark "Bookmark canceled, no content selected"
+    exit 0
+  fi
 
   # Existing bookmarks
-  BKMKS=$(awk -F: '{print $1}' "$STRGDIR/$CHOICE")
-
+  
+  BKMKS=$(awk -F: '{print $1 " " "[" $2 "]"}' "$STRGDIR/$CHOICE" )
   # User-Selected name of bookmark
   NAME=$(echo "$BKMKS" | dmenu -l 5 -p "Name of bookmark:")
 
-  if [ "$NAME" = 0 ]; then
-				dunstify -a Bookmark "Bookmark canceled."
+  if [ "$NAME" = 0 ] || [ -z "$NAME" ]; then
+				dunstify -a Bookmark "Bookmark canceled. no name provided."
 				exit 0
   fi
 
 	#Create the file if it doenst exist
 	if ! [ -f "$STRGDIR/$CHOICE" ]; then
-		touch "$STRGDIR/$CHOICE"
 		echo "$NAME:$CNTNT" >> "$STRGDIR/$CHOICE"
 	else 
 	# Check to see if the name specified is a bookmark
 		case $NAME in 
 			*$BKMRKS*)
+
+      OTHER=$(  )
+      echo "$OTHER"
 			NAMECNT=$(dmenu -p "$NAME already exists. Replace (Y/n)")
 			#Get old data from bookmark and put it on clipboard
 			awk '/'"$NAME"'\:/ {print}' | xclip -selection clipboard
@@ -58,7 +66,6 @@ if [ -z "$1" ] || [ "$1" = "-s" ]; then
 				;;
 		esac
 	fi
-
 	dunstify -a Bookmark "Bookmark $NAME Saved to $STRGDIR/$SELECTION"
 
 #If bookmark -r then we are retrieving from the file
