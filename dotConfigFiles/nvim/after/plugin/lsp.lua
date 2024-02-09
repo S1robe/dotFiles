@@ -9,18 +9,24 @@ lsp.preset({
     }
 })
 
-
+vim.diagnostic.config({
+    virtual_text = true
+})
 
 lsp.on_attach(function(client, bufnr)
-  lsp.default_keymaps({buffer = bufnr})
+  local opts = {buffer = bufnr, remap = false}
+  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+  vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+  vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
--- local cmp = require('cmp')
--- vim.keymap.set("i", "<C-space>", cmp.mapping.complete())
-
---vim.diagnostic.config({
---    virtual_text = true
---})
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
@@ -29,3 +35,8 @@ require('mason-lspconfig').setup({
     lsp.default_setup,
   },
 })
+
+
+-- Completions 
+local cmp = require('cmp')
+vim.keymap.set("i", "<C-space>", cmp.mapping.complete())
