@@ -7,7 +7,7 @@ xterm*eightBitOutput: true
 
 
 ! Font
-xterm*faceName: Fixed:size=12
+xterm*faceName: DroidSansMono:size=12
 
 ! Colors
 xterm*background: #000000
