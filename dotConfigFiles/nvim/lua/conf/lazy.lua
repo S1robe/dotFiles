@@ -30,28 +30,22 @@ local lazy = require("lazy").setup({
 	{'tpope/vim-fugitive'},
 
 	{
-		'VonHeikemen/lsp-zero.nvim',
-		dependencies = {
-			-- LSP Support
-			'neovim/nvim-lspconfig',             -- Required
-			'williamboman/mason.nvim',           -- Optional
-			'williamboman/mason-lspconfig.nvim', -- Optional
+    -- Language servers and co
+    'williamboman/mason.nvim',           -- Optional
+    'williamboman/mason-lspconfig.nvim', -- Optional
+	
+    -- Maanagement plugin
+    'VonHeikemen/lsp-zero.nvim',
+    -- LSP Support
+    'neovim/nvim-lspconfig',             -- Required
+    'hrsh7th/cmp-nvim-lsp', -- Required
 
-			-- Autocompletion
-			'hrsh7th/nvim-cmp',     -- Required
-			'hrsh7th/cmp-buffer',     -- Required
-			'hrsh7th/cmp-path',     -- Required
-			'hrsh7th/cmp-nvim-lsp', -- Required
-			'hrsh7th/cmp-nvim-lua', -- Required
-			'saadparwaiz1/cmp_luasnip',
+    -- Autocompletion
+    'hrsh7th/nvim-cmp',     -- Required
 
-			'L3MON4D3/LuaSnip',
-			'rafamadriz/friendly-snippets',
-		},
+    'L3MON4D3/LuaSnip',
 	},
 
 	{'ThePrimeagen/refactoring.nvim'},
 	{'folke/trouble.nvim'},
-	{'andweeb/presence.nvim'},
-    {'klen/nvim-test'},
 });

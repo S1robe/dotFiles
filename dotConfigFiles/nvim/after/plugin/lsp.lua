@@ -1,21 +1,6 @@
-local lsp = require('lsp-zero').preset({
-    name = 'recommended',
-    suggest_lsp_servers = true,
---    ensure_installed = {
---        'html',
---        'python',
---        'java', 
---        'c', 
---        'cpp',
---        'rust',
---        'ts', 
---        'js',
---        'lua',
---        'dart',
---        'flutter',
---        'bash',
---        'powershell'
---    }
+local lsp = require('lsp-zero')
+
+lsp.preset({
     sign_icons = {
         error = 'E',
         warn = 'W',
@@ -24,11 +9,9 @@ local lsp = require('lsp-zero').preset({
     }
 })
 
-
--- lsp.nvim_workspace()
-
-local cmp = require('cmp')
-vim.keymap.set("i", "<C-space>", cmp.mapping.complete())
+vim.diagnostic.config({
+    virtual_text = true
+})
 
 lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
@@ -44,7 +27,16 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
-lsp.setup()
-vim.diagnostic.config({
-    virtual_text = true
+
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {},
+  handlers = {
+    lsp.default_setup,
+  },
 })
+
+
+-- Completions 
+local cmp = require('cmp')
+vim.keymap.set("i", "<C-space>", cmp.mapping.complete())
