@@ -3,6 +3,10 @@ command=./dunst
 interval=once
 align=center
 
+[battery]
+command=./battery
+interval=120
+
 [network]
 command=./network
 color=#00FF00
@@ -20,4 +24,3 @@ signal=10
 [calendar]
 command=./calendar
 interval=1
-
