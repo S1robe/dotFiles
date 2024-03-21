@@ -30,3 +30,4 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 # Spicetify
 export PATH=$PATH:/home/owner/.spicetify
 export PATH=$PATH:/opt/flutter/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_PATH/lib

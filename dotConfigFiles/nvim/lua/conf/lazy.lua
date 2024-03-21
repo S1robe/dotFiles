@@ -29,23 +29,20 @@ local lazy = require("lazy").setup({
 	{ 'mbbill/undotree'}, 
 	{'tpope/vim-fugitive'},
 
-	{
-    -- Language servers and co
-    'williamboman/mason.nvim',           -- Optional
-    'williamboman/mason-lspconfig.nvim', -- Optional
-	
-    -- Maanagement plugin
-    'VonHeikemen/lsp-zero.nvim',
-    -- LSP Support
-    'neovim/nvim-lspconfig',             -- Required
-    'hrsh7th/cmp-nvim-lsp', -- Required
+	{ 'VonHeikemen/lsp-zero.nvim'},
+      -- Language servers and co
+  {'williamboman/mason.nvim'},
+  {'williamboman/mason-lspconfig.nvim'},
+      -- LSP Support
+  {'neovim/nvim-lspconfig'},
+  {'hrsh7th/cmp-nvim-lsp'},
 
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',     -- Required
+      -- Autocompletion
+  {'hrsh7th/nvim-cmp'},
+  {'L3MON4D3/LuaSnip'},
 
-    'L3MON4D3/LuaSnip',
-	},
 
-	{'ThePrimeagen/refactoring.nvim'},
+  {'ThePrimeagen/refactoring.nvim'},
 	{'folke/trouble.nvim'},
 });
+

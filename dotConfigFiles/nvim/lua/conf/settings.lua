@@ -35,3 +35,4 @@ vim.opt.colorcolumn = "80"
 
 -- Enable Spellchecker
 vim.cmd("setlocal spell spelllang=en_us")
+vim.opt.wrap = true
