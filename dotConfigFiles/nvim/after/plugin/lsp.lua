@@ -18,6 +18,10 @@ require('mason-lspconfig').setup({
   },
 })
 
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enable = false },
+})
 
 -- Completions 
 local cmp = require('cmp')
@@ -49,7 +53,19 @@ cmp.setup({
     {name = 'nvim_lsp'},
     {name = 'luasnip'},
     {name = 'spell'},
+    {name = 'copilot'},
   }, {
     { name = 'buffer' },
-  })
+  }),
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.menu = ({
+        nvim_lsp = '[LSP]',
+        luasnip = '[LUA]',
+        spell = '[Spell]',
+        copilot = '[Copilot]',
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
 })
