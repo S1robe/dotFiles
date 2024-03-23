@@ -28,6 +28,10 @@ cmp.setup({
       require('luasnip').lsp_expand(args.body)
      end,
   },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
   mapping = cmp.mapping.preset.insert({
     ['<Tab>'] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
     ['<S-Tab>'] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}),
@@ -41,20 +45,11 @@ cmp.setup({
     ),
     ['<C-y>'] = cmp.mapping.confirm({select = true}),
   }),
-  sources = {
+  sources = cmp.config.sources({
     {name = 'nvim_lsp'},
     {name = 'luasnip'},
     {name = 'spell'},
-  },
-  formatting = {
-    format = function(entry, vim_item)
-      vim_item.menu = ({
-        nvim_lsp = '[LSP]',
-        luasnip = '[LUA]',
-        spell = '[Spell]',
-      })[entry.source.name]
-      return vim_item
-    end,
-  },
+  }, {
+    { name = 'buffer' },
+  })
 })
-
