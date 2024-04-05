@@ -2,7 +2,7 @@ local prompts = require('CopilotChat.prompts')
 local select = require('CopilotChat.select')
 
 
-vim.keymap.set({"n", "i"}, "<leader>p", "<cmd>CopilotChatToggle<CR>", opts)
+vim.keymap.set({"n"}, "<leader>p", "<cmd>CopilotChatToggle<CR>", opts)
 
 --- @class CopilotChat.config.source
 --- @field bufnr number
@@ -137,7 +137,7 @@ return {
 
   -- default window options
   window = {
-    layout = 'horizontal', -- 'vertical', 'horizontal', 'float'
+    layout = 'float', -- 'vertical', 'horizontal', 'float'
     -- Options below only apply to floating windows
     relative = 'editor', -- 'editor', 'win', 'cursor', 'mouse'
     border = 'single', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
