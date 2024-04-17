@@ -62,6 +62,11 @@ local lazy = require("lazy").setup({
     },
     -- See Commands section for default commands if you want to lazy load on them
   },
+ -- This didnt work yet
+ --  { "kevinhwang91/nvim-ufo" , requires = 'kevinhwang91/promise-async'}
+ -- {"nyoom-engineering/oxocarbon.nvim"}
+ {"kwsp/halcyon-neovim"}
+
 });
 
 
