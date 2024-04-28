@@ -83,10 +83,10 @@ return {
 
   system_prompt = prompts.COPILOT_INSTRUCTIONS, -- System prompt to use
   model = 'gpt-4', -- GPT model to use, 'gpt-3.5-turbo' or 'gpt-4'
-  temperature = 0.1, -- GPT temperature
+  temperature = 0.133, -- GPT temperature
 
   name = 'CopilotChat', -- Name to use in chat
-  separator = '---', -- Separator to use in chat
+  separator = '===', -- Separator to use in chat
   show_folds = true, -- Shows folds for sections in chat
   show_help = true, -- Shows help message as virtual lines when waiting for user input
   auto_follow_cursor = true, -- Auto-follow cursor in chat
@@ -137,7 +137,7 @@ return {
 
   -- default window options
   window = {
-    layout = 'float', -- 'vertical', 'horizontal', 'float'
+    layout = 'vertical', -- 'vertical', 'horizontal', 'float'
     -- Options below only apply to floating windows
     relative = 'editor', -- 'editor', 'win', 'cursor', 'mouse'
     border = 'single', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'

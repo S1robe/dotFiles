@@ -1,7 +1,7 @@
 # start a terminal
 bindsym $mod+Return exec $TERMINAL 
 bindsym $mod+r exec $FILEMGR
-bindsym $mod+Shift+d exec $TERMINAL -e nnn
+bindsym $mod+Shift+d exec $TERMINAL -e ranger
 bindsym Mod1+Return exec $TERMINAL -e tmux
 
 #Alt Tab controls
