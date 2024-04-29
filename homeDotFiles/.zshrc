@@ -106,7 +106,5 @@ unsetopt BEEP
 #X-options
 xset r rate 250 50 # key refresh rate
 
-
-
 # Custom Aliases
 alias l="ls -llo"

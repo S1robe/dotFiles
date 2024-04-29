@@ -31,3 +31,4 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 export PATH=$PATH:/home/owner/.spicetify
 export PATH=$PATH:/opt/flutter/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_PATH/lib
+export PATH=$PATH:/usr/local/texlive/2024/bin/x86_64-linux
