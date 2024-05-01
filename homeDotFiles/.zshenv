@@ -7,10 +7,10 @@ export PATH="$PATH$(find $HOME/.local/bin -type d -printf :%p)"
 # like ranger or visudo
 export EDITOR="nvim"
 export VISUAL="nvim"
-export FILEMGR="dolphin"
+export FILEMGR="ranger"
 
 # This is used for i3, sterm and slock
-export BROWSER="brave"
+export BROWSER="vivaldi"
 export TERMINAL="xterm"
 export TERMINAL_PROG="xterm"
 
@@ -29,6 +29,11 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # Spicetify
 export PATH=$PATH:/home/owner/.spicetify
-export PATH=$PATH:/opt/flutter/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_PATH/lib
-export PATH=$PATH:/usr/local/texlive/2024/bin/x86_64-linux
+
+# Cuda GPU
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_PATH/lib
+
+#Java
+export JAVA_HOME="/usr/lib/jvm/default/"
+export PATH=$PATH:$JAVA_HOME
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$JAVA_HOME/lib

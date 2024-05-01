@@ -61,8 +61,9 @@ local lazy = require("lazy").setup({
  --  { "kevinhwang91/nvim-ufo" , requires = 'kevinhwang91/promise-async'}
  -- {"nyoom-engineering/oxocarbon.nvim"}
  {"kwsp/halcyon-neovim"},
- {"lervag/vimtex"}
+ {"lervag/vimtex"},
 });
+
 
 
 
