@@ -1,3 +1,6 @@
 [submodule "homeDotFiles/.oh-my-bash"]
 	path = homeDotFiles/.oh-my-bash
 	url = https://github.com/S1robe/oh-my-bash
+[submodule "homeDotFiles/.oh-my-zsh"]
+	path = homeDotFiles/.oh-my-zsh
+	url = https://github.com/S1robe/oh-my-zsh
