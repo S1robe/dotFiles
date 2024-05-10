@@ -1,0 +1,3 @@
+[submodule "homeDotFiles/.oh-my-bash"]
+	path = homeDotFiles/.oh-my-bash
+	url = https://github.com/S1robe/oh-my-bash
