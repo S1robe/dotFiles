@@ -32,10 +32,4 @@ export JAVA_HOME="/usr/lib/jvm/default/"
 export PATH=$PATH:$JAVA_HOME
 
 
-source "$HOME"/.screenlayout/verticalplasma.sh 2> /dev/null 1> /dev/null 0> /dev/null
-
-# If Display isnt set (being used already) then start the xserver 
-if [ -z ${DISPLAY} ] && [ "${XDG_VTNR}" -eq 1 ]; then
-    startx
-fi
 

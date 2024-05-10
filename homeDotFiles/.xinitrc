@@ -43,6 +43,6 @@ fi
 xset -b         # disable bell
 xset -dpms       # dynamic power management system
 xset s 300      # sleep 5 minutes
-
+xset r rate 250 50  # refresh rate for fast keys
 
 exec i3

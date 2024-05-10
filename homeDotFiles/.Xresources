@@ -17,8 +17,8 @@ xterm*ttyModes: erase ^?
 ! Other cool things
 xterm*utf8: 1
 
-XTerm*faceName: Droid Sans Mono
-XTerm*faceSize: 12
+XTerm*faceName: White Rabbit
+XTerm*faceSize: 20
 
 ! Resize controls
 xterm*vt100.translations: #override \n\
@@ -27,5 +27,3 @@ xterm*vt100.translations: #override \n\
   Ctrl <Key>0: set-vt-font(d) \n\
   Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
   Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
-
-
