@@ -6,14 +6,9 @@ xterm*eightBitInput: false
 xterm*eightBitOutput: true
 
 
-! Font
-xterm*faceName: DroidSansMono:size=12
-
 ! Colors
 xterm*background: #000000
 xterm*foreground: #ffffff
-xterm*scrollBar: true
-xterm*rightScrollBar: true
 
 ! fix backspace
 xterm*vt100.backarrowKey: false
@@ -21,6 +16,9 @@ xterm*ttyModes: erase ^?
 
 ! Other cool things
 xterm*utf8: 1
+
+XTerm*faceName: Droid Sans Mono
+XTerm*faceSize: 12
 
 ! Resize controls
 xterm*vt100.translations: #override \n\
