@@ -18,7 +18,7 @@ xterm*ttyModes: erase ^?
 xterm*utf8: 1
 
 XTerm*faceName: White Rabbit
-XTerm*faceSize: 20
+XTerm*faceSize: 16
 
 ! Resize controls
 xterm*vt100.translations: #override \n\
