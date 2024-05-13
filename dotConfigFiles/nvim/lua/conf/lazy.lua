@@ -44,13 +44,13 @@ local lazy = require("lazy").setup({
 
   {'ThePrimeagen/refactoring.nvim'},
 	{'folke/trouble.nvim'},
-  { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-  {
-      "zbirenbaum/copilot-cmp",
-      config = function()
-          require("copilot_cmp").setup()
-      end,
-  },
+--  { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+--  {
+--      "zbirenbaum/copilot-cmp",
+--      config = function()
+--          require("copilot_cmp").setup()
+--      end,
+--  },
  {"kwsp/halcyon-neovim"},
  {"lervag/vimtex"},
 });

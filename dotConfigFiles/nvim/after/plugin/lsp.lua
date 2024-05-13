@@ -18,10 +18,10 @@ require('mason-lspconfig').setup({
   },
 })
 
-require("copilot").setup({
-  suggestion = { enabled = false },
-  panel = { enable = false },
-})
+--require("copilot").setup({
+--  suggestion = { enabled = false },
+--  panel = { enable = false },
+--})
 
 -- Completions 
 local cmp = require('cmp')
