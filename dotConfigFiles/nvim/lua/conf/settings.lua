@@ -1,6 +1,6 @@
 -- vim.cmd("colorscheme habamax")
 vim.opt.background = 'dark'
-vim.cmd.colorscheme "halcyon"
+vim.cmd.colorscheme "github_dark_high_contrast"
 vim.cmd.set "termguicolors"
 
 vim.opt.guicursor = ""
@@ -38,7 +38,6 @@ vim.opt.colorcolumn = "80"
 
 -- Enable Spellchecker
 vim.cmd("setlocal spell spelllang=en_us")
-vim.opt.wrap = true
 
 vim.o.foldcolumn = '1' -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value

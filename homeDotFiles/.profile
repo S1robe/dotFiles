@@ -28,8 +28,8 @@ export PIPEWIRE_RUNTIME_DIR="/run/user/1000/"
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
 #Java
-export JAVA_HOME="/usr/lib/jvm/default/"
-export PATH=$PATH:$JAVA_HOME
+#export JAVA_HOME="/usr/lib/jvm/default/"
+#export PATH=$PATH:$JAVA_HOME
 
 
 

@@ -30,11 +30,12 @@ cmp.setup({
   snippet = {
      expand = function(args)
       require('luasnip').lsp_expand(args.body)
+      require('vsnip').anonymous(args.body)
      end,
   },
   window = {
-    -- completion = cmp.config.window.bordered(),
-    -- documentation = cmp.config.window.bordered(),
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
     ['<Tab>'] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
@@ -52,10 +53,9 @@ cmp.setup({
   sources = cmp.config.sources({
     {name = 'nvim_lsp'},
     {name = 'luasnip'},
+    {name = 'vsnip'},
     {name = 'spell'},
-    {name = 'copilot'},
-  }, {
-    { name = 'buffer' },
+    {name = 'buffer'},
   }),
   formatting = {
     format = function(entry, vim_item)

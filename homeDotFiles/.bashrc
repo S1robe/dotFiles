@@ -12,7 +12,7 @@ export OSH='/home/owner/.oh-my-bash'
 OSH_THEME="rr"
 
 # Uncomment the following line to use case-sensitive completion.
-OMB_CASE_SENSITIVE="true"
+# OMB_CASE_SENSITIVE="true"
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
@@ -72,3 +72,6 @@ set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set menu-complete-display-prefix on
 bind TAB:menu-complete
+
+
+eval "$(direnv hook bash)"

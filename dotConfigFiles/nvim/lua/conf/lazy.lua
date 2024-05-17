@@ -38,21 +38,32 @@ local lazy = require("lazy").setup({
   {'hrsh7th/cmp-nvim-lsp'},
 
       -- Autocompletion
-  {'hrsh7th/nvim-cmp'},
-  {'L3MON4D3/LuaSnip'},
+  {'hrsh7th/nvim-cmp', 'L3MON4D3/LuaSnip', 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-vsnip'},
 
 
   {'ThePrimeagen/refactoring.nvim'},
 	{'folke/trouble.nvim'},
---  { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
---  {
---      "zbirenbaum/copilot-cmp",
---      config = function()
---          require("copilot_cmp").setup()
---      end,
---  },
- {"kwsp/halcyon-neovim"},
- {"lervag/vimtex"},
+  -- {"kwsp/halcyon-neovim"}, -- Theme
+  {"projekt0n/github-nvim-theme",
+    lazy = false,
+    priority = 1000,
+    config =function() 
+      require('github-theme').setup({
+        dim_inactive = true,
+        options = {
+          styles = {
+            comments = 'italic',
+            keywords = 'bold',
+            types = 'bold'
+          }
+        }
+      })
+
+      vim.cmd('colorscheme github_dark_colorblind')
+    end,
+  },
+  {"lervag/vimtex"},
+  {"sindrets/diffview.nvim"},
 });
 
 
