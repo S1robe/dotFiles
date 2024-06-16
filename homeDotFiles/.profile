@@ -1,6 +1,6 @@
 # Always sourced, First
 # Add everything in ~/.local/bin to the PATH
-export PATH="$PATH$(find $HOME/.local/bin -type d -printf :%p)"
+export PATH="$PATH$(find "$HOME"/.local/bin -type d -printf :%p)"
 
 # This is used for most commands that rely on $EDITOR
 # like ranger or visudo
@@ -31,5 +31,5 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 export JAVA_HOME="/usr/lib/jvm/default/"
 export PATH=$PATH:$JAVA_HOME
 
-
-
+#Flutter 
+export PATH=$PATH:/usr/bin/flutter/bin

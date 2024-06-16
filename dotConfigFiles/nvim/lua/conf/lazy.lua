@@ -64,6 +64,7 @@ local lazy = require("lazy").setup({
   },
   {"lervag/vimtex"},
   {"sindrets/diffview.nvim"},
+  {"mg979/vim-visual-multi"},
 });
 
 
