@@ -76,4 +76,5 @@ bind TAB:menu-complete
 
 eval "$(direnv hook bash)"
 
-source "$HOME"/.screenlayout/horizontal.sh 2> /dev/null 1> /dev/null 0> /dev/null
+#source "$HOME"/.screenlayout/horizontal.sh 2> /dev/null 1> /dev/null 0> /dev/null
+

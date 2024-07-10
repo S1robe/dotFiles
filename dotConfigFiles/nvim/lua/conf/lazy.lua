@@ -42,7 +42,7 @@ local lazy = require("lazy").setup({
 
 
   {'ThePrimeagen/refactoring.nvim'},
-	{'folke/trouble.nvim'},
+	{'folke/trouble.nvim', lazy = false},
   -- {"kwsp/halcyon-neovim"}, -- Theme
   {"projekt0n/github-nvim-theme",
     lazy = false,
