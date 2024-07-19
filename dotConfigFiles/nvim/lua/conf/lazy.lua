@@ -15,58 +15,58 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 
 local lazy = require("lazy").setup({
-	{
-		'nvim-telescope/telescope.nvim',
-		dependencies = {
-			'nvim-lua/plenary.nvim',
-		},
-	},
-	{ 'nvim-treesitter/nvim-treesitter',  build = ':TSUpdate' },
-	{ 'nvim-treesitter/playground' },
-
-	{ 'ThePrimeagen/harpoon'},
-
-	{ 'mbbill/undotree'}, 
-	{'tpope/vim-fugitive'},
-
-	{ 'VonHeikemen/lsp-zero.nvim'},
-      -- Language servers and co
-  {'williamboman/mason.nvim'},
-  {'williamboman/mason-lspconfig.nvim'},
-      -- LSP Support
-  {'neovim/nvim-lspconfig'},
-  {'hrsh7th/cmp-nvim-lsp'},
-
-      -- Autocompletion
-  {'hrsh7th/nvim-cmp', 'L3MON4D3/LuaSnip', 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-vsnip'},
-
-
-  {'ThePrimeagen/refactoring.nvim'},
-	{'folke/trouble.nvim', lazy = false},
-  -- {"kwsp/halcyon-neovim"}, -- Theme
-  {"projekt0n/github-nvim-theme",
-    lazy = false,
-    priority = 1000,
-    config =function() 
-      require('github-theme').setup({
-        dim_inactive = true,
-        options = {
-          styles = {
-            comments = 'italic',
-            keywords = 'bold',
-            types = 'bold'
-          }
-        }
-      })
-
-      vim.cmd('colorscheme github_dark_colorblind')
-    end,
+  {
+    'nvim-telescope/telescope.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
   },
-  {"lervag/vimtex"},
-  {"sindrets/diffview.nvim"},
-  {"mg979/vim-visual-multi"},
+  { 'nvim-treesitter/nvim-treesitter',  build = ':TSUpdate' },
+  { 'nvim-treesitter/playground' },
+
+  { 'ThePrimeagen/harpoon' },
+
+  { 'mbbill/undotree' },
+  { 'tpope/vim-fugitive' },
+
+  { 'VonHeikemen/lsp-zero.nvim' },
+  -- Language servers and co
+  { 'williamboman/mason.nvim' },
+  { 'williamboman/mason-lspconfig.nvim' },
+  -- LSP Support
+  { 'neovim/nvim-lspconfig' },
+  { 'hrsh7th/cmp-nvim-lsp' },
+
+  -- Autocompletion
+  { 'hrsh7th/nvim-cmp',                 'L3MON4D3/LuaSnip', 'hrsh7th/vim-vsnip', 'hrsh7th/cmp-vsnip' },
+
+
+  { 'ThePrimeagen/refactoring.nvim' },
+  {
+    'folke/trouble.nvim',
+  },
+  --{"projekt0n/github-nvim-theme",
+  --  lazy = false,
+  --  priority = 1000,
+  --  config =function()
+  --    require('github-theme').setup({
+  --      dim_inactive = true,
+  --      options = {
+  --        styles = {
+  --          comments = 'italic',
+  --          keywords = 'bold',
+  --          types = 'bold'
+  --        }
+  --      }
+  --    })
+
+  --    vim.cmd('colorscheme github_dark_colorblind')
+  --  end,
+  --},
+  {
+    'dasupradyumna/midnight.nvim',
+    lazy = false,
+    priority = 1000
+  },
+  { "lervag/vimtex" },
 });
-
-
-
-

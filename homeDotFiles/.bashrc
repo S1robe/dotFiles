@@ -73,6 +73,7 @@ set show-all-if-unmodified on
 set menu-complete-display-prefix on
 bind TAB:menu-complete
 
+alias today='date +"%Y-%m-%dT%H:%M:%S%:z"'
 
 eval "$(direnv hook bash)"
 
