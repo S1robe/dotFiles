@@ -33,3 +33,19 @@ export PATH=$PATH:$JAVA_HOME
 
 #Flutter 
 export PATH=$PATH:/usr/bin/flutter/bin
+
+function rand-str {
+    # Return random alpha-numeric string of given LENGTH
+    #
+    # Usage: VALUE=$(rand-str $LENGTH)
+    #    or: VALUE=$(rand-str)
+
+    local DEFAULT_LENGTH=64
+    local LENGTH=${1:-$DEFAULT_LENGTH}
+
+    LC_ALL=C tr -dc A-Za-z0-9 </dev/urandom | head -c "$LENGTH"
+    printf '\n'
+    # LC_ALL=C: required for Mac OS X - https://unix.stackexchange.com/a/363194/403075
+    # -dc: delete complementary set == delete all except given set
+}
+export -f rand-str

@@ -1,8 +1,5 @@
--- vim.cmd("colorscheme habamax")
+vim.cmd.colorscheme 'midnight'
 vim.opt.background = 'dark'
-vim.cmd.colorscheme "github_dark_high_contrast"
-vim.cmd.set "termguicolors"
-
 vim.opt.guicursor = ""
 
 vim.opt.nu = true
