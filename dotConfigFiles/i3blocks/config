@@ -16,11 +16,9 @@ display_wifi_name=0
 
 [volume]
 command=./volume
-#LABEL=♪ 
 LABEL=VOL 
-interval=once
-signal=10
+interval=10
 
 [calendar]
 command=./calendar
-interval=1
+interval=once

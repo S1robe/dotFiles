@@ -1,5 +1,4 @@
-vim.keymap.set("n", "<leader>sq", vim.cmd.Ex)
-vim.keymap.set("n", "<leader>q", vim.cmd.E)
+vim.keymap.set("n", "<leader>q", vim.cmd.Ex)
 
 vim.keymap.set({"n", "i"}, "<C-s>", vim.cmd.w)
 
