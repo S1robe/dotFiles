@@ -17,7 +17,7 @@ xterm*ttyModes: erase ^?
 ! Other cool things
 xterm*utf8: 1
 
-XTerm*faceName: Hack
+XTerm*faceName: 0xProto\ Nerd\ Font
 XTerm*faceSize: 12
 
 ! Resize controls
