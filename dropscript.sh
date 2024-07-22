@@ -42,8 +42,9 @@ mkdir "$HOME/.local/bin/cbin"
 ln -s "$BINDIR" "$HOME/.local/bin/cbin"
 
 # Link fonts to the local fonts directory
-#if ! [ -d "$HOME/.local/bin/share/fonts" ]; then
-#	ln -s "$FONTDIR" "$HOME/.local/bin/share/fonts"
-#else
-#	ln -s "$FONTDIR" "$HOME/.local/bin/share/fonts/cfonts"
-#fi
+if ! [ -d "$HOME/.local/share/fonts" ]; then
+	ln -s "$FONTDIR" "$HOME/.local/share/fonts"
+else
+	cp "$FONTDIR/**" "$HOME/.local/share/fonts/"
+fi
+fc-cache -fv "$HOME/.local/share/fonts"
