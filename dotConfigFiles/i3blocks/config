@@ -22,3 +22,7 @@ interval=10
 [calendar]
 command=./calendar
 interval=once
+
+[time]
+command=./time
+interval=60
