@@ -32,7 +32,7 @@ export JAVA_HOME="/usr/lib/jvm/default/"
 export PATH=$PATH:$JAVA_HOME
 
 #Flutter 
-export PATH=$PATH:/usr/bin/flutter/bin
+#export PATH=$PATH:/usr/bin/flutter/bin
 
 function rand-str {
     # Return random alpha-numeric string of given LENGTH
