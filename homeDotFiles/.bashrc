@@ -75,7 +75,5 @@ bind TAB:menu-complete
 
 alias today='date +"%Y-%m-%dT%H:%M:%S%:z"'
 
-eval "$(direnv hook bash)"
-
 #source "$HOME"/.screenlayout/horizontal.sh 2> /dev/null 1> /dev/null 0> /dev/null
 
