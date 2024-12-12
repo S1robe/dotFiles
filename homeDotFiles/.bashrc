@@ -77,3 +77,14 @@ alias today='date +"%Y-%m-%dT%H:%M:%S%:z"'
 
 #source "$HOME"/.screenlayout/horizontal.sh 2> /dev/null 1> /dev/null 0> /dev/null
 
+
+# Pyenv for Harbor
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export TERM='xterm'
+export COLORTERM='truecolor'
+
+# Initialize bash reminders
+brem --show
