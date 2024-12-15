@@ -1,98 +1,119 @@
 #!/bin/bash
-STRGDIR="$HOME/.local/share/bookmarks"
-if ! [ -f "$STRGDIR" ]; then 
-	mkdir --parent "$STRGDIR" || exit
+
+STRGDIR="$HOME/.bookmarks"
+
+# Ensure the directory exists
+if [ ! -d "$STRGDIR" ]; then 
+  mkdir -p "$STRGDIR" || exit
 fi
 
-command -v dmenu >/dev/null 2>&1 || { echo >&2 "dmenu is required."; }
-command -v xclip >/dev/null 2>&1 || { echo >&2 "xclip is required."; }
-command -v dunst >/dev/null 2>&1 || { echo >&2 "dunst is required."; }
-command -v dunstify >/dev/null 2>&1 || { echo >&2 "dunstify is required."; }
-
-if [ -z "$1" ] || [ "$1" = "-s" ]; then
-  # Bookmarking
-  CHOICE=$( ls "$STRGDIR" | dmenu -l 5 -p "Select or Create File to save to:" )
-  # Replace spaces with underscore.
-  CHOICE=${CHOICE// /_}
-
-  if [ "$CHOICE" = 0 ]; then
-				dunstify -a Bookmark "Bookmark canceled."
-				exit 0
+# Check dependencies
+for cmd in dmenu xclip dunst dunstify; do
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "$cmd is required but not installed."
+    exit 1
   fi
-  touch "$STRGDIR/$CHOICE"
-  # Get highlighted text (Primary register)
-  CNTNT=$(xclip -o)
-  if [ -z "$CNTNT" ]; then 
-    dunstify -a Bookmark "Bookmark canceled, no content selected"
+done
+
+# Notify helper
+notify() {
+  dunstify -a Bookmark "$1"
+}
+
+# Save bookmark
+save_bookmark() {
+  CHOICE=$(find "$STRGDIR" -type f | dmenu -l 5 -p "Select or create file to save to:")
+  CHOICE=${CHOICE// /_}
+  CHOICE=${CHOICE##*/}
+  [ -z "$CHOICE" ] && notify "Bookmark canceled." && exit 0
+
+  FILE="$STRGDIR/$CHOICE"
+  touch "$FILE"
+
+  notify "$FILE"
+  CNTNT=$(cat "" | dmenu -p "Content for the Bookmark (default Clipboard)")
+  if [ -z "$CNTNT" ]; then
+    CNTNT="$(xclip -selection clipboard -o)"
+  fi
+
+  # Check if CNTNT is still empty after trying to use clipboard
+  if [ -z "$CNTNT" ]; then
+    notify "No content provided. Save canceled."
     exit 0
   fi
 
-  # Existing bookmarks
-  
-  BKMKS=$(awk -F: '{print $1 " " "[" $2 "]"}' "$STRGDIR/$CHOICE" )
-  # User-Selected name of bookmark
-  NAME=$(echo "$BKMKS" | dmenu -l 5 -p "Name of bookmark:")
+  BKMKS=$(awk -F: '{print $1}' "$FILE")
+  NAME=$(echo -e "$BKMKS" | dmenu -l 5 -p "Name of bookmark:")
 
-  if [ "$NAME" = 0 ] || [ -z "$NAME" ]; then
-				dunstify -a Bookmark "Bookmark canceled. no name provided."
-				exit 0
+  [ -z "$NAME" ] && notify "No name provided. Bookmark canceled." && exit 0
+
+  if grep -q "^$NAME:" "$FILE"; then
+    OLD_CONTENT=$(awk -F: -v name="$NAME" '$1 == name {print $2}' "$FILE")
+    echo "$OLD_CONTENT" | xclip -selection clipboard
+    REPLACE=$(echo -e "y\nn" | dmenu -p "$NAME exists. Replace? (y/n)")
+    [[ "$REPLACE" != "y" ]] && notify "Bookmark not replaced." && exit 0
+    sed -i "s/^$NAME:.*/$NAME:$CNTNT/" "$FILE"
+  else
+    echo "$NAME:$CNTNT" >> "$FILE"
   fi
 
-	#Create the file if it doenst exist
-	if ! [ -f "$STRGDIR/$CHOICE" ]; then
-		echo "$NAME:$CNTNT" >> "$STRGDIR/$CHOICE"
-	else 
-	# Check to see if the name specified is a bookmark
-		case $NAME in 
-			*$BKMRKS*)
+  notify "Bookmark '$NAME' saved to $CHOICE."
+}
 
-      OTHER=$(  )
-      echo "$OTHER"
-			NAMECNT=$(dmenu -p "$NAME already exists. Replace (Y/n)")
-			#Get old data from bookmark and put it on clipboard
-			awk '/'"$NAME"'\:/ {print}' | xclip -selection clipboard
+# Retrieve bookmark
+retrieve_bookmark() {
+  CHOICE=$(find "$STRGDIR" -type f | dmenu -l 5 -p "Select file to retrieve from:")
+  CHOICE=${CHOICE// /_}
+  CHOICE=${CHOICE##*/}
+  [ -z "$CHOICE" ] && notify "No file selected." && exit 0
 
-			# IF Y selected then overwrite it w/ sed
-			if ! [ "$NAMECNT" = "y" ] && ! [ "$NAMECNT" = "Y" ]; then
-				dunstify -a Bookmark "Bookmark canceled."
-				exit 0
-			fi
+  FILE="$STRGDIR/$CHOICE"
+  [ ! -f "$FILE" ] && notify "File not found." && exit 0
 
-			#Replace old entry
-			sed -i 's/&'"$NAME"'\:.*/'"$CNTNT"'/' "$STRGDIR/$CHOICE"
-				;;
-			*)
-			echo "$NAME:$CNTNT" >> "$STRGDIR/$CHOICE"
-				;;
-		esac
-	fi
-	dunstify -a Bookmark "Bookmark $NAME Saved to $STRGDIR/$SELECTION"
+  NAME=$(awk -F: '{print $1}' "$FILE" | dmenu -l 5 -p "Select bookmark:")
+  [ -z "$NAME" ] && notify "No bookmark selected." && exit 0
 
-#If bookmark -r then we are retrieving from the file
-elif [ "$1" = "-r" ]; then
-	#List of files that we use to store the things
-	LOCS=$(ls "$STRGDIR")
-	SELECTION=$(echo "$LOCS" | dmenu -l 5 -p "Select File for Bookmark: ")
-	LOCS=${LOCS//$'\n'/ }
-	
-	dunstify -a Bookmark "$LOCS\n$SELECTION"
-	case $SELECTION in
-		*$LOCS*)
-		BKMRKS=$( awk -F: '{print $1}' "$STRGDIR/$SELECTION")
-		NAME=$(echo "$BKMRKS" | dmenu -l 5 -p "Name of Bookmark:")
-		sed 's/^'"$NAME"'://' | xclip -selection clipboard
-		if [ -z "$CONTENT" ]; then
-			dunstify -a Bookmark "Bookmark $NAME not found in $STRGDIR/$SELECTION"
-			exit 0
-		fi
-			;;
-		*)
-		dunstify -a Bookmark "No such file found."
-		exit 0
-			;;
-	esac
-	
-	dunstify -a Bookmark "Bookmark placed on clipboard"
+  CONTENT=$(awk -F: -v name="$NAME" '$1 == name { $1=""; print }' "$FILE")
+  [ -z "$CONTENT" ] && notify "Bookmark not found." && exit 0
 
-fi
+  echo "$CONTENT" | xclip -selection clipboard
+  notify "Bookmark '$NAME' placed on clipboard."
+}
 
+# Delete a bookmark
+# delete_bookmark() {
+#   local file name
+#
+#   # Ask where to look
+#   CHOICE=$(find "$STRGDIR" -type f | dmenu -l 5 -p "Select file to delete from:")
+#   CHOICE=${CHOICE// /_}
+#   CHOICE=${CHOICE##*/}
+#   [ -z "$CHOICE" ] && notify "Delete canceled." && exit 0
+#   file="$STRGDIR/$CHOICE"
+#   [ ! -f "$file" ] && notify "File not found." && exit 0
+#
+#   # Ask for the bookmark name
+#   name=$(awk -F: '{print $1}' "$file" | dmenu -l 5 -p "Select bookmark to delete:")
+#   [ -z "$name" ] && notify "No bookmark selected. Delete canceled." && exit 0
+#
+#   # Confirm deletion
+#   if [ "$(echo -e "y\nn" | dmenu -p "Delete $name? (y/n)")" != "y" ]; then
+#     notify "Delete canceled."
+#     exit 0
+#   fi
+#
+#   # Delete the bookmark
+#   sed -i "/^$name:/d" "$file"
+#   notify "Bookmark '$name' deleted."
+# }
+#
+# Main
+case "$1" in
+  -s|--save) save_bookmark ;;
+  -r|--retrieve) retrieve_bookmark ;;
+#  -d|--delete) delete_bookmark ;;
+  *)
+    echo "Usage: $0 {-s|--save|-r|--retrieve" #|-d|--delete}"
+    exit 1
+    ;;
+esac
