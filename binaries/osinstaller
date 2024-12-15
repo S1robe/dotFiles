@@ -1,38 +1,339 @@
 #!/bin/sh
 
-# User Selects isntallation drive
+# Part 1: Initial Setup and Drive Selection
 echo -ne "Hi there, welcome to the install script for Arch Linux.\n\
-    This script should in theory provide you a fully working install.\n\
-    \\n
-    \
-    Lets get started.\n"
+    This script should, in theory, provide you a fully working install.\n\
+    \n\
+    Let's get started.\n"
 pause
 
-echo -ne "Not all drives will be listed, only disks will be shown\n\
-    Only those that are the actual disk, and 
-    Please pick your desired install drive\n\
+echo -ne "Not all drives will be listed, only disks will be shown.\n\
+    Only those that are actual disks will be listed.\n\
+    Please pick your desired install drive.\n\
     You only need to specify the end name, EX \"nvme0n1\"\n\
-
     "
+
 # Store output of drives for parsing
 DRIVES=$(lsblk --list --path --noheadings)
 
-# Print only the drives for the user to select from.
-$(echo $DRIVES | awk '{print $1}')
+# Print only the drives for the user to select from
+echo "$DRIVES" | awk '{print $1}'
 
-# Store to $INSTALLDRIVE
-read -ne INSTALLDRIVE
+# Store the user's drive selection
+echo -n "Please enter your desired installation drive: "
+read -r INSTALLDRIVE
 
-echo -ne "Please make sure that /dev/`$INSTALLDRIVE` not being used.\n\
-    Continue (y/N)"
+echo -ne "Please make sure that /dev/$INSTALLDRIVE is not being used.\n\
+    Continue (y/N): "
 
-# user input should be (y, n, N, Y)
-while 
-    read -ne INPUT
-do ! [[ "${INPUT,,}" = "y" ]] || ! [[ "${INPUT,,}" = "n" ]] && echo "Please enter only 'y' or 'n'\n"; done
+# Get user input for confirmation
+while :; do
+    read -r INPUT
+    if [[ "${INPUT,,}" == "y" ]]; then
+        break
+    elif [[ "${INPUT,,}" == "n" || -z "$INPUT" ]]; then
+        echo "Aborting the installation. Exiting."
+        exit 1
+    else
+        echo "Please enter only 'y' or 'n'."
+    fi
+done
 
-# Update the deivce name 
-INSTALLDRIVE="/dev/`$INSTALLDRIVE`"
+# Update the device name
+INSTALLDRIVE="/dev/$INSTALLDRIVE"
 
-# Make sure that the device actually exists and is unmount and ready
-SELECTEDDRIVE=$(echo "$DRIVES" | grep "$INPUT")
+# Make sure that the device exists and is not in use (unmounted)
+if ! lsblk | grep -q "$INSTALLDRIVE"; then
+    echo "Error: $INSTALLDRIVE does not exist or is not a valid device."
+    exit 1
+fi
+
+# ----------------------------------------------------------------------------------
+#
+# Part 2: Partitioning and Encryption
+# Wipe the drive to prepare for partitioning
+echo "Wiping the drive $INSTALLDRIVE (this will destroy all data)."
+
+# Ask the user for swap configuration
+echo -n "Do you want to use swap space? (y/N): "
+read -r USE_SWAP
+
+if [[ "${USE_SWAP,,}" == "y" ]]; then
+    # Ask whether the user wants a swap file or swap partition
+    echo -n "Do you want swap as a partition or a file? (partition/file): "
+    read -r SWAP_TYPE
+
+    # If partition, ask for size; if file, the size is handled later
+    if [[ "$SWAP_TYPE" == "partition" ]]; then
+        # Ask for the swap partition size (default to system's RAM size)
+        echo -n "Enter swap partition size in MB (default is system's RAM size): "
+        read -r SWAP_SIZE_MB
+        if [[ -z "$SWAP_SIZE_MB" ]]; then
+            # Default to system RAM size
+            SWAP_SIZE_MB=$(free -m | awk '/^Mem:/ {print $2}')
+        fi
+        SWAP_SIZE="+${SWAP_SIZE_MB}M"
+        echo "You selected $SWAP_SIZE swap partition."
+
+        # Partition the drive using fdisk
+        echo "Partitioning the drive $INSTALLDRIVE..."
+
+        # Using fdisk to create partitions: EFI, root (LUKS encrypted), and swap
+        fdisk "$INSTALLDRIVE" <<EOF
+o # Create a new empty GPT partition table
+n # New partition (EFI)
+p # Primary partition
+1 # Partition number
+  # Default first sector
++300M # EFI partition size
+t # Change partition type
+1 # Set type to EFI (1)
+n # New partition (LUKS root)
+p # Primary partition
+2 # Partition number
+  # Default first sector
+  # Default last sector (rest of disk)
+t # Change partition type
+2 # Set type to Linux filesystem (2)
+n # New partition (Swap)
+p # Primary partition
+3 # Partition number
+  # Default first sector
+  $SWAP_SIZE # Use the user-defined swap size
+t # Change partition type
+3 # Set type to Linux swap (82)
+w # Write the changes
+EOF
+
+    elif [[ "$SWAP_TYPE" == "file" ]]; then
+        # No swap partition is needed; swap will be created later as a file
+        echo "Swap will be created as a file later."
+    else
+        echo "Invalid choice for swap type. Aborting."
+        exit 1
+    fi
+else
+    echo "No swap space will be created."
+    # Partition the drive without swap partition
+    echo "Partitioning the drive $INSTALLDRIVE..."
+
+    fdisk "$INSTALLDRIVE" <<EOF
+o # Create a new empty GPT partition table
+n # New partition (EFI)
+p # Primary partition
+1 # Partition number
+  # Default first sector
++300M # EFI partition size
+t # Change partition type
+1 # Set type to EFI (1)
+n # New partition (LUKS root)
+p # Primary partition
+2 # Partition number
+  # Default first sector
+  # Default last sector (rest of disk)
+t # Change partition type
+2 # Set type to Linux filesystem (2)
+w # Write the changes
+EOF
+fi
+
+# Inform the user of the partition layout
+echo "Partitioning complete. The drive now has the following partitions:"
+lsblk "$INSTALLDRIVE"
+
+# Encrypt the root partition with LUKS
+echo "Encrypting the root partition ($INSTALLDRIVE-part2)..."
+cryptsetup luksFormat "$INSTALLDRIVE"p2
+cryptsetup open "$INSTALLDRIVE"p2 cryptroot
+
+# Format the partitions
+echo "Formatting partitions..."
+
+# Format EFI partition
+mkfs.fat -F32 "$INSTALLDRIVE"p1
+
+# Format the LUKS partition with ext4
+mkfs.ext4 /dev/mapper/cryptroot
+
+# If swap partition was selected, create and format swap partition
+if [[ "$SWAP_TYPE" == "partition" ]]; then
+    mkswap "$INSTALLDRIVE"p3
+    swapon "$INSTALLDRIVE"p3
+fi
+
+# If swap file was selected, create and enable swap file
+if [[ "$SWAP_TYPE" == "file" ]]; then
+    echo "Creating swap file..."
+    dd if=/dev/zero of=/mnt/swapfile bs=1M count=$SWAP_SIZE_MB status=progress
+    chmod 600 /mnt/swapfile
+    mkswap /mnt/swapfile
+    swapon /mnt/swapfile
+fi
+
+# Mount the partitions
+echo "Mounting partitions..."
+mount /dev/mapper/cryptroot /mnt
+mkdir -p /mnt/boot
+mount "$INSTALLDRIVE"p1 /mnt/boot
+
+# ---------------------------------------------------------------------------------
+
+# Part 3: Base System Installation
+
+# Default programs to install (if not set in defaults.txt)
+DEFAULT_PROGRAMS="base linux linux-firmware neovim nano sudo intel-ucode"
+
+# Check if defaults.txt exists and read the program list from it if it does
+if [ -f "defaults.txt" ]; then
+    echo "Reading default settings from defaults.txt..."
+    DEFAULT_PROGRAMS=$(cat defaults.txt)
+else
+    echo "No defaults.txt found. Proceeding with default programs."
+fi
+
+# Ask the user for kernel selection (not from defaults.txt)
+echo "Please select the kernel type:"
+echo "1) Base Kernel (default)"
+echo "2) LTS Kernel"
+echo "3) Hardened Kernel"
+if [ -z "$KERNEL_SELECTION" ]; then
+    read -r -p "Enter the number corresponding to your selection (default is 1): " KERNEL_SELECTION
+fi
+
+# Set kernel to default if no input is given
+if [ -z "$KERNEL_SELECTION" ] || [ "$KERNEL_SELECTION" -eq 1 ]; then
+    KERNEL="linux"
+elif [ "$KERNEL_SELECTION" -eq 2 ]; then
+    KERNEL="linux-lts"
+elif [ "$KERNEL_SELECTION" -eq 3 ]; then
+    KERNEL="linux-hardened"
+else
+    echo "Invalid selection, defaulting to base kernel."
+    KERNEL="linux"
+fi
+
+# Combine the program list with the selected kernel
+INSTALL_PROGRAMS="$DEFAULT_PROGRAMS $KERNEL"
+
+# Installing the base system with the selected kernel and additional programs
+echo "Installing the base system with $KERNEL kernel and the following programs: $INSTALL_PROGRAMS"
+pacstrap /mnt $INSTALL_PROGRAMS
+
+# Generate fstab
+echo "Generating fstab..."
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# ---------------------------------------------------------------------------------
+
+# Part 4: System Configuration
+
+# Ask for hostname
+echo "Please enter your hostname (default is 'device'):"
+if [ -z "$HOSTNAME" ]; then
+    read -r HOSTNAME
+    if [ -z "$HOSTNAME" ]; then
+        HOSTNAME="device"  # Default hostname
+    fi
+fi
+echo "Setting hostname to $HOSTNAME..."
+echo "$HOSTNAME" > /mnt/etc/hostname
+
+# Set up hosts file for the hostname
+echo "127.0.0.1    localhost" > /mnt/etc/hosts
+echo "::1          localhost" >> /mnt/etc/hosts
+echo "127.0.1.1    $HOSTNAME.localdomain    $HOSTNAME" >> /mnt/etc/hosts
+
+# Set the default timezone to America/Los_Angeles
+echo "Setting the timezone to America/Los_Angeles..."
+ln -sf /mnt/usr/share/zoneinfo/America/Los_Angeles /mnt/etc/localtime
+
+# Sync hardware clock
+echo "Syncing hardware clock..."
+arch-chroot /mnt hwclock --systohc
+
+# Set up NTP (Network Time Protocol) for time synchronization
+echo "Setting up NTP for time synchronization..."
+arch-chroot /mnt pacman -S --noconfirm ntp
+arch-chroot /mnt systemctl enable ntpd
+arch-chroot /mnt systemctl start ntpd
+
+# Generate locales (en_US.UTF-8 as default)
+echo "Generating locales..."
+echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
+arch-chroot /mnt locale-gen
+echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
+
+# Output the final configuration
+echo "System configuration complete. Hostname set to '$HOSTNAME', timezone set to 'America/Los_Angeles'."
+
+# ----------------------------------------------------------------------------------
+# Part 5: UKI (Unified Kernel Image) Setup
+echo "Installing necessary packages for UKI boot..."
+pacman -S --noconfirm systemd-boot mkinitcpio
+
+# Set up crypttab for encrypted root
+echo "cryptroot UUID=$(blkid -s UUID -o value "$INSTALLDRIVE"p2) none luks" > /etc/crypttab
+
+# Create the Unified Kernel Image (UKI) with mkinitcpio
+echo "Creating Unified Kernel Image (UKI)..."
+mkinitcpio -P
+
+# Copy the kernel and initramfs to the boot directory
+cp /boot/vmlinuz-linux /boot/arch.kernel
+cp /boot/initramfs-linux.img /boot/arch.initramfs.img
+
+# Configure systemd-boot (UEFI boot manager)
+echo "Setting up systemd-boot for UKI boot..."
+bootctl --path=/boot install
+
+# Create a boot entry for the kernel
+cat <<EOF > /boot/loader/entries/arch.conf
+title   Arch Linux
+linux   /arch.kernel
+initrd  /arch.initramfs.img
+options cryptdevice=UUID=$(blkid -s UUID -o value "$INSTALLDRIVE"p2):cryptroot root=/dev/mapper/cryptroot rw
+EOF
+
+# Enable necessary services
+systemctl enable NetworkManager
+systemctl enable dhcpcd
+
+# ---------------------------------------------------------------------------------
+
+# Part 6: Final Setup (Root Password, User Creation, and Package Installation)
+
+# Change the root password
+echo "Changing the root password..."
+arch-chroot /mnt passwd  # This will prompt the user to enter a new password for root
+
+# Ask for a new username
+echo "Please enter the new username for your non-root user:"
+read -r NEW_USER
+
+# Create the new user
+echo "Creating the new user '$NEW_USER'..."
+arch-chroot /mnt useradd -m -G wheel -s /bin/bash "$NEW_USER"
+
+# Set the password for the new user
+echo "Please enter a password for the new user '$NEW_USER':"
+arch-chroot /mnt passwd "$NEW_USER"  # This will prompt the user to set the new user's password
+
+# Enable sudo for the new user (adding them to the wheel group)
+echo "Giving '$NEW_USER' sudo privileges..."
+arch-chroot /mnt sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /mnt/etc/sudoers
+
+# Install necessary packages for i3 and Xorg
+echo "Installing i3, i3blocks, i3wm, xorg, xorg-server, and xorg-xinit..."
+arch-chroot /mnt pacman -S --noconfirm i3 i3blocks i3wm xorg xorg-server xorg-xinit git gh
+
+arch-chroot /mnt git clone "https://github.com/S1robe/kickstart.nvim /home/$NEW_USER/.config/nvim"
+arch-chroot /mnt git clone "https://github.com/S1robe/dotFilesEtc" "/home/$NEW_USER/.dotFiles" --recurse-submodules
+arch-chroot /mnt /home/owner/"$NEW_USER"/.dotFiles/dropScript <<EOF
+y
+
+EOF
+
+# Output the final message
+echo "Setup complete. The root password is changed, and user '$NEW_USER' is created."
+echo "You can now chroot into your installation and reboot."
+
