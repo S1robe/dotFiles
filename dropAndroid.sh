@@ -17,6 +17,7 @@ find dotConfigFiles -maxdepth 1 -not -path . -exec ln -sf "$(realpath {})" "$HOM
 cd ../homeDotFiles || exit
 find homeDotFiles -maxdepth 1 -not -path . -exec ln -sf "$(realpath {})" "$HOME" \; 
 
+cd ..
 # Make the downloads
 ln -sf /storage/emulated/0 root
 ln -sf ./root/Downloads downloads
