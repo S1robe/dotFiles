@@ -1,55 +1,29 @@
 #!/bin/sh
 
-BINDIR="./binaries"
-FONTDIR="./fonts"
-
-# Display the prompt message
-echo "I should be run in the same directory as my configs.
-This script is intended to be a clone & run type script.
-Enter 'y' to continue."
-
-# Read user input
+echo "Enter 'y' to continue."
 read -r confirm
 
-# Check if the user confirmed with 'y' or 'Y'
-if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
-    echo "Aborting... You did not confirm with 'y'."
-    exit 1
-fi
-
-# Continue with the rest of the script
-echo "Proceeding with the script..."
-
-# The rest of the script continues here...
+[ "$confirm" != "y" ] && [ "$confirm" != "Y" ] || exit 0
 
 # Check if required directories exist
-if ! [ -d "dotConfigFiles" ] || ! [ -d "homeDotFiles" ]; then
-    echo "Config directories not found, aborting.
-    Expected to find './dotConfigFiles' & './homeDotFiles'"
-    exit 1
-fi
-
-clear
+! [ -d "dotConfigFiles" ] || ! [ -d "homeDotFiles" ] || exit 0
 
 echo "Making config directories if needed..."
-# Create necessary directories if they don't exist
-mkdir -p "$HOME/.config" "$HOME/.local/bin"
 
+mkdir -p "$HOME/.config"
 # Link all config files to $HOME/.config
 cd dotConfigFiles || exit
-for fle in ./*; do
-    fle=${fle##*/}
-    ln -sf "$PWD/$fle" "$HOME/.config/$fle"
-done
-
+find dotConfigFiles -maxdepth 1 -not -path . -exec ln -sf "$(realpath {})" "$HOME/.config/" \; 
 cd ../homeDotFiles || exit
-for fle in ./*; do
-    fle=${fle##*/}
-    ln -sf "$PWD/$fle" "$HOME/$fle"
-done
-
-cd ..
+find homeDotFiles -maxdepth 1 -not -path . -exec ln -sf "$(realpath {})" "$HOME" \; 
 
 # Make the downloads
 ln -sf /storage/emulated/0 root
 ln -sf ./root/Downloads downloads
+
+pkg update -y && pkg upgrade -y && pkg autoclean -y
+pkg install -y tmux git neovim man openssh openssl termux-api 
+pkg remove -y nano 
+
+git clone "https://github.com/S1robe/kickstart.nvim" ".config/nvim"
+
