@@ -79,9 +79,9 @@ alias today='date +"%Y-%m-%dT%H:%M:%S%:z"'
 
 
 # Pyenv for Harbor
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+#export PYENV_ROOT="$HOME/.pyenv"
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
 export TERM='xterm'
 export COLORTERM='truecolor'
