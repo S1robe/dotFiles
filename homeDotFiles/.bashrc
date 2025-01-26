@@ -85,6 +85,3 @@ eval "$(pyenv init -)"
 
 export TERM='xterm'
 export COLORTERM='truecolor'
-
-# Initialize bash reminders
-brem --show
