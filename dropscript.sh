@@ -1,5 +1,7 @@
 #!/bin/sh
 
+FONTDIR="./fonts"
+
 # Display the prompt message
 echo "I should be run in the same directory as my configs.
 This script is intended to be a clone & run type script.
