@@ -11,13 +11,9 @@ export FILEMGR="ranger"
 
 # This is used for i3, sterm and slock
 export BROWSER="vivaldi"
-export TERMINAL="xterm"
-export TERM="xterm"
-export TERMINAL_PROG="xterm"
+export TERMINAL="alacritty"
+export TERMINAL_PROG="alacritty"
 
-# This is used by sterm and slock for compliation.
-export FONT="ter-u32b"
-export USRSHELL="$SHELL"
 
 # Program specific settings
 # ------------------------
@@ -31,12 +27,6 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 #Java
 export JAVA_HOME="/usr/lib/jvm/default"
 export PATH=$PATH:$JAVA_HOME
-
-#Flutter 
-#export PATH=$PATH:/usr/bin/flutter/bin
-
-#Gcloud
-export PATH="$PATH:/opt/google-cloud-cli/bin"
 
 function rand-str {
     # Return random alpha-numeric string of given LENGTH

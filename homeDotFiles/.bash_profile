@@ -1,6 +1,7 @@
-# .bash_profile -*- mode: sh -*-
+# Only called by Logins
 
-# Load login settings and environment variables
+#
+# # Load login settings and environment variables
 if [[ -f ~/.profile ]]; then
   source ~/.profile
 fi
@@ -15,4 +16,3 @@ if [ -z ${DISPLAY} ] && [ "${XDG_VTNR}" -eq 1 ]; then
     startx
 fi
 
-# source "$HOME"/.screenlayout/verticalplasma.sh 2> /dev/null 1> /dev/null 0> /dev/null
