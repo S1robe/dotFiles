@@ -1,5 +1,5 @@
 !save history
-xterm*SaveLines: 9000
+xterm*SaveLines: 100000
 
 ! This should fix the alt
 xterm*eightBitInput: false
@@ -18,7 +18,7 @@ xterm*ttyModes: erase ^?
 xterm*utf8: 1
 
 XTerm*faceName: 0xProto\ Nerd\ Font
-XTerm*faceSize: 12
+XTerm*faceSize: 10
 
 ! Resize controls
 xterm*vt100.translations: #override \n\

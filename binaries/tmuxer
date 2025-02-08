@@ -1,7 +1,0 @@
-#!/bin/sh
-
-TSH=$(tmux list-sessions | awk -F':' '{print $1}')
-if []
-
-
-
