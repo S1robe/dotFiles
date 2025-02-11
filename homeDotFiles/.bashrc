@@ -19,14 +19,17 @@ shopt -s histappend
 export EDITOR=/usr/bin/nvim
 export VISUAL='nvim'
 export HISTCONTROL=ignoreboth:erasedups:ignorespace
-export FILEMGR="ranger"
+
+export XDG_RUNTIME_DIR="/run/user/$UID"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 
 # This is used for i3, sterm and slock
 export BROWSER="vivaldi"
 export TERMINAL="alacritty"
 export TERMINAL_PROG="alacritty"
+export FILEMGR="ranger"
 
-export PAGER='most'
+export PAGER='more'
 
 export TERM=xterm-256color
 export SHELL=$(which bash)
