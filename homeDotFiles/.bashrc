@@ -25,8 +25,8 @@ export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 
 # This is used for i3, sterm and slock
 export BROWSER="vivaldi"
-export TERMINAL="alacritty"
-export TERMINAL_PROG="alacritty"
+export TERMINAL="xterm"
+export TERMINAL_PROG="xterm"
 export FILEMGR="ranger"
 
 export PAGER='more'
