@@ -29,7 +29,7 @@ bar {
    position top
 }
 
-exec_always nitrogen --restore
+#exec_always nitrogen --restore
 
 # Whether or not to show decoration marks
 
@@ -37,7 +37,7 @@ title_align center
 workspace_layout default
 default_border pixel 1
 
-exec_always $HOME/.screenlayout/horizontal.sh
+#exec_always $HOME/.screenlayout/horizontal.sh
 
 # Assign workspaces to the specific monitor
 workspace $ws1 output "HDMI-1"
