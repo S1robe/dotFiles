@@ -1,7 +1,6 @@
 # start a terminal
 bindsym $mod+Return exec $TERMINAL 
-bindsym $mod+r exec $TERMINAL -e ranger
-bindsym Mod1+Return exec $TERMINAL -e tmux
+bindsym $mod+r exec $TERMINAL -e $FILEMGR
 
 #Alt Tab controls
 bindsym $mod+Tab exec rofi -show window
@@ -114,10 +113,6 @@ tiling_drag modifier titlebar
 #Screenshotting
 bindsym Print exec --no-startup-id flameshot gui
 
-#Copy and paste overwriting
-
-
-
 #Bookmarking anytext that can make it to the clipboard
 bindsym $mod+b exec bookmark -s
 bindsym $mod+Shift+b exec bookmark -r
@@ -125,13 +120,3 @@ bindsym $mod+Shift+b exec bookmark -r
 #Back light for laptops
 bindsym XF86MonBrightnessUp exec brightnessctl set 3%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 3%-
-
-# TMux specific stuff
-bindsym Mod1+1 exec $TERMINAL -e tmux new-session -A -t 0
-bindsym Mod1+2 exec $TERMINAL -e tmux new-session -A -t 1
-bindsym Mod1+3 exec $TERMINAL -e tmux new-session -A -t 2
-bindsym Mod1+4 exec $TERMINAL -e tmux new-session -A -t 3
-bindsym Mod1+\! exec $TERMINAL -e tmux new-session -A -t 4
-bindsym Mod1+\@ exec $TERMINAL -e tmux new-session -A -t 5
-bindsym Mod1+\# exec $TERMINAL -e tmux new-session -A -t 6
-bindsym Mod1+\$ exec $TERMINAL -e tmux new-session -A -t 7

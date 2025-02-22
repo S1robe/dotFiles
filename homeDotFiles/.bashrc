@@ -10,6 +10,9 @@ append_path () {
     esac
 }
 append_path "$HOME/.local/bin"
+append_path "$HOME/.local/bin/Grayjay.Desktop-linux-x64-v4/Grayjay"
+append_path "$HOME/.local/bin/Faster-Whisper-XXL/faster-whisper-xxl"
+append_path "$HOME/.local/bin/DaVinci_Resolve_Studio_19.0.1_Linux.run"
 
 HISTSIZE=100000
 HISTFILESIZE=2000000
@@ -29,7 +32,7 @@ export TERMINAL="xterm"
 export TERMINAL_PROG="xterm"
 export FILEMGR="mc"
 
-export PAGER='more'
+export PAGER='less'
 
 export TERM=xterm-256color
 export SHELL=$(which bash)
