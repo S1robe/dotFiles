@@ -14,10 +14,11 @@ append_path "$HOME/.local/bin/Grayjay.Desktop-linux-x64-v4/Grayjay"
 append_path "$HOME/.local/bin/Faster-Whisper-XXL/faster-whisper-xxl"
 append_path "$HOME/.local/bin/DaVinci_Resolve_Studio_19.0.1_Linux.run"
 
-HISTSIZE=100000
-HISTFILESIZE=2000000
-shopt -s histappend
+export HISTSIZE=100000
+export HISTFILESIZE=2000000
 
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
 ### EXPORT ### Should be before the change of the shell
 export EDITOR=/usr/bin/nvim
 export VISUAL='nvim'
@@ -36,21 +37,40 @@ export PAGER='less'
 
 export TERM=xterm-256color
 export SHELL=$(which bash)
+export COLORTERM='truecolor'
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# switch shell
-[[ $(ps --no-header --pid=$PPID --format=comm) != "${SHELL#/usr/bin/}" && -z ${BASH_EXECUTION_STRING} && ${SHELL} != "/usr/bin/bash" ]] && exec $SHELL
 
+PROMPT_COMMAND='PS1_CMD1=$(ip route get 1.1.1.1 | awk -F"src " '"'"'NR == 1{ split($2, a," ");print a[1]}'"'"'); PS1_CMD2=$(git rev-parse --abbrev-ref HEAD 2>/dev/null 1>/dev/null && echo "$(git rev-parse --abbrev-ref HEAD) -> $(git rev-parse --abbrev-ref @{u} || echo none) $(git status --porcelain | awk '"'"'/^[MADRCU]./{s++}/^.[MADRCU]/{u++}/^\?\?/{t++}END{print "(S:"s+0" U:"u+0" T:"t+0")"}'"'"')");'
+
+PS1='\n\[\e[1m\]\d\[\e[0;2;3m\]@\[\e[0;1;38;5;209m\]\A\e[0m\] ${PS1_CMD2}\n(\[\e[38;5;209;1m\]\l\[\e[0m\]|\[\e[1m\]\#\[\e[0m\]|\[\e[1m\]\j\[\e[0m\]|\[\e[1m\]$?\[\e[0m\]) [\[\e[96m\]\u\[\e[0m\]@\[\e[2m\]${PS1_CMD1}\[\e[0m\]] \w: ' 
 # Use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
 
 # Bash aliases
 if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
+  . "$HOME"/.bash_aliases
 fi
+
+
+# [[ $1 != no-repeat-flag && -f /usr/share/blesh/ble.sh ]] && 
+
+if [ -f /usr/share/besh/ble.sh ]; then
+    . /usr/share/blesh/ble.sh
+fi
+
+
+# X-Options
+xset r rate 250 50
+
+set -o vi
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set menu-complete-display-prefix on
+bind TAB:menu-complete
 
 #shopt
 shopt -s autocd # change to named directory
@@ -59,81 +79,3 @@ shopt -s cmdhist # save multi-line commands in history as single line
 shopt -s dotglob
 shopt -s histappend # do not overwrite history
 shopt -s expand_aliases # expand aliases
-
-function rand-str {
-    # Return random alpha-numeric string of given LENGTH
-    #
-    # Usage: VALUE=$(rand-str $LENGTH)
-    #    or: VALUE=$(rand-str)
-
-    local DEFAULT_LENGTH=64
-    local LENGTH=${1:-$DEFAULT_LENGTH}
-
-    LC_ALL=C tr -dc A-Za-z0-9\[\]\{\}\+\=\\-\)\(\*\&\^\%\$\#\@\!\~\'\"\;: </dev/urandom | head -c "$LENGTH"
-    printf '\n'
-    # LC_ALL=C: required for Mac OS X - https://unix.stackexchange.com/a/363194/403075
-    # -dc: delete complementary set == delete all except given set
-}
-export -f rand-str
-[[ $1 != no-repeat-flag && -f /usr/share/blesh/ble.sh ]] && source /usr/share/blesh/ble.sh
-
-# Path to your oh-my-bash installation.
-export OSH="$HOME/.oh-my-bash"
-
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-bash is loaded.
-OSH_THEME="rr"
-
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# To disable the uses of "sudo" by oh-my-bash, please set "false" to
-# this variable.  The default behavior for the empty value is "true".
-OMB_USE_SUDO=false
-
-# To enable/disable display of Python virtualenv and condaenv
-OMB_PROMPT_SHOW_PYTHON_VENV=true  # false
-# OMB_PROMPT_SHOW_PYTHON_VENV=false # disable
-
-# Which completions would you like to load? (completions can be found in ~/.oh-my-bash/completions/*)
-# Custom completions may be added to ~/.oh-my-bash/custom/completions/
-# Example format: completions=(ssh git bundler gem pip pip3)
-# Add wisely, as too many completions slow down shell startup.
-completions=(
-  git
-  ssh
-  gh
-  defaults
-)
-
-# Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
-# Custom aliases may be added to ~/.oh-my-bash/custom/aliases/
-# Example format: aliases=(vagrant composer git-avh)
-# Add wisely, as too many aliases slow down shell startup.
-aliases=(
-  general
-)
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-bash/plugins/*)
-# Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  bashmarks
-)
-
-source "$OSH"/oh-my-bash.sh
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
-# X-Options
-xset r rate 250 50
-
-set show-all-if-ambiguous on
-set show-all-if-unmodified on
-set menu-complete-display-prefix on
-bind TAB:menu-complete
-
-alias today='date +"%Y-%m-%dT%H:%M:%S%:z"'
-export COLORTERM='truecolor'
