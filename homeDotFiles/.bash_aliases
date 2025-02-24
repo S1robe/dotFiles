@@ -1,6 +1,6 @@
 ### ALIASES ###
 
-alias 'rand-str'="tr -dc A-Za-z0-9\[\]\{\}\+\=\\-\)\(\*\&\^\%\$\#\@\!\~\'\"\;: </dev/urandom | head -c 64"
+alias rand-str="tr -dc 'A-Za-z0-9[]{}+=()-*&^%$#@!~\"\;:' </dev/urandom | head -c 64"
 
 #tmux
 alias tmux='tmux -u'

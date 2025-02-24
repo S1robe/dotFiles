@@ -23,6 +23,8 @@ export LANG=en_US.UTF-8
 export EDITOR=/usr/bin/nvim
 export VISUAL='nvim'
 export HISTCONTROL=ignoreboth:erasedups:ignorespace
+export HISTIGNORE="&:[bf]g:exit:clear:history:pwd:cd:source:reload:helpful:ls:ll:la:lt"
+export HISTTIMEFORMAT="$(echo -e "%d/%m/%y %T")" # Add date and time to history.
 
 export XDG_RUNTIME_DIR="/run/user/$UID"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
@@ -35,9 +37,12 @@ export FILEMGR="mc"
 
 export PAGER='less'
 
-export TERM=xterm-256color
 export SHELL=$(which bash)
 export COLORTERM='truecolor'
+
+export NVIDA_VISIBLE_DEVICES='all'
+export CUDA_VISIBLE_DEVICES='all'
+
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -46,21 +51,12 @@ export COLORTERM='truecolor'
 PROMPT_COMMAND='PS1_CMD1=$(ip route get 1.1.1.1 | awk -F"src " '"'"'NR == 1{ split($2, a," ");print a[1]}'"'"'); PS1_CMD2=$(git rev-parse --abbrev-ref HEAD 2>/dev/null 1>/dev/null && echo "$(git rev-parse --abbrev-ref HEAD) -> $(git rev-parse --abbrev-ref @{u} || echo none) $(git status --porcelain | awk '"'"'/^[MADRCU]./{s++}/^.[MADRCU]/{u++}/^\?\?/{t++}END{print "(S:"s+0" U:"u+0" T:"t+0")"}'"'"')");'
 
 PS1='\n\[\e[1m\]\d\[\e[0;2;3m\]@\[\e[0;1;38;5;209m\]\A\e[0m\] ${PS1_CMD2}\n(\[\e[38;5;209;1m\]\l\[\e[0m\]|\[\e[1m\]\#\[\e[0m\]|\[\e[1m\]\j\[\e[0m\]|\[\e[1m\]$?\[\e[0m\]) [\[\e[96m\]\u\[\e[0m\]@\[\e[2m\]${PS1_CMD1}\[\e[0m\]] \w: ' 
+
 # Use bash-completion, if available
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-    . /usr/share/bash-completion/bash_completion
+[[ -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion;
 
 # Bash aliases
-if [ -f ~/.bash_aliases ]; then
-  . "$HOME"/.bash_aliases
-fi
-
-
-# [[ $1 != no-repeat-flag && -f /usr/share/blesh/ble.sh ]] && 
-
-if [ -f /usr/share/besh/ble.sh ]; then
-    . /usr/share/blesh/ble.sh
-fi
+[[ -f ~/.bash_aliases ]] && . "$HOME"/.bash_aliases;
 
 
 # X-Options
