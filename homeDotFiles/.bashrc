@@ -10,9 +10,6 @@ append_path () {
     esac
 }
 append_path "$HOME/.local/bin"
-append_path "$HOME/.local/bin/Grayjay.Desktop-linux-x64-v4/Grayjay"
-append_path "$HOME/.local/bin/Faster-Whisper-XXL/faster-whisper-xxl"
-append_path "$HOME/.local/bin/DaVinci_Resolve_Studio_19.0.1_Linux.run"
 
 export HISTSIZE=100000
 export HISTFILESIZE=2000000
