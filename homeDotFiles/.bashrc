@@ -60,10 +60,15 @@ PS1='\n\[\e[1m\]\d\[\e[0;2;3m\]@\[\e[0;1;38;5;209m\]\A\e[0m\] ${PS1_CMD2}\n(\[\e
 xset r rate 250 50
 
 set -o vi
+set editing-mode vi
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set menu-complete-display-prefix on
 bind TAB:menu-complete
+bind -x '"\C-l": clear'
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
 
 #shopt
 shopt -s autocd # change to named directory
