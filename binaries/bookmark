@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STRGDIR="$HOME/.bookmarks"
+STRGDIR="$HOME/.bookmarks/"
 
 # Ensure the directory exists
 if [ ! -d "$STRGDIR" ]; then 
@@ -22,16 +22,16 @@ notify() {
 
 # Save bookmark
 save_bookmark() {
-  CHOICE=$(find "$STRGDIR" -type f | dmenu -l 5 -p "Select or create file to save to:")
+  CHOICE=$(find "$STRGDIR" -type f -printf '%f\n' | dmenu -l 5 -p "Select or create file to save to:")
   CHOICE=${CHOICE// /_}
   CHOICE=${CHOICE##*/}
   [ -z "$CHOICE" ] && notify "Bookmark canceled." && exit 0
 
-  FILE="$STRGDIR/$CHOICE"
+  FILE="$STRGDIR$CHOICE"
   touch "$FILE"
 
   notify "$FILE"
-  CNTNT=$(cat "" | dmenu -p "Content for the Bookmark (default Clipboard)")
+  CNTNT=$(echo "" | dmenu -p "Content for the Bookmark (default Clipboard)")
   if [ -z "$CNTNT" ]; then
     CNTNT="$(xclip -selection clipboard -o)"
   fi
@@ -62,12 +62,12 @@ save_bookmark() {
 
 # Retrieve bookmark
 retrieve_bookmark() {
-  CHOICE=$(find "$STRGDIR" -type f | dmenu -l 5 -p "Select file to retrieve from:")
+  CHOICE=$(find "$STRGDIR" -type f -printf '%f\n' | dmenu -l 5 -p "Select file to retrieve from:")
   CHOICE=${CHOICE// /_}
   CHOICE=${CHOICE##*/}
   [ -z "$CHOICE" ] && notify "No file selected." && exit 0
 
-  FILE="$STRGDIR/$CHOICE"
+  FILE="$STRGDIR$CHOICE"
   [ ! -f "$FILE" ] && notify "File not found." && exit 0
 
   NAME=$(awk -F: '{print $1}' "$FILE" | dmenu -l 5 -p "Select bookmark:")
@@ -81,37 +81,37 @@ retrieve_bookmark() {
 }
 
 # Delete a bookmark
-# delete_bookmark() {
-#   local file name
-#
-#   # Ask where to look
-#   CHOICE=$(find "$STRGDIR" -type f | dmenu -l 5 -p "Select file to delete from:")
-#   CHOICE=${CHOICE// /_}
-#   CHOICE=${CHOICE##*/}
-#   [ -z "$CHOICE" ] && notify "Delete canceled." && exit 0
-#   file="$STRGDIR/$CHOICE"
-#   [ ! -f "$file" ] && notify "File not found." && exit 0
-#
-#   # Ask for the bookmark name
-#   name=$(awk -F: '{print $1}' "$file" | dmenu -l 5 -p "Select bookmark to delete:")
-#   [ -z "$name" ] && notify "No bookmark selected. Delete canceled." && exit 0
-#
-#   # Confirm deletion
-#   if [ "$(echo -e "y\nn" | dmenu -p "Delete $name? (y/n)")" != "y" ]; then
-#     notify "Delete canceled."
-#     exit 0
-#   fi
-#
-#   # Delete the bookmark
-#   sed -i "/^$name:/d" "$file"
-#   notify "Bookmark '$name' deleted."
-# }
-#
+delete_bookmark() {
+  local file name
+
+  # Ask where to look
+  CHOICE=$(find "$STRGDIR" -type f | dmenu -l 5 -p "Select file to delete from:")
+  CHOICE=${CHOICE// /_}
+  CHOICE=${CHOICE##*/}
+  [ -z "$CHOICE" ] && notify "Delete canceled." && exit 0
+  file="$STRGDIR/$CHOICE"
+  [ ! -f "$file" ] && notify "File not found." && exit 0
+
+  # Ask for the bookmark name
+  name=$(awk -F: '{print $1}' "$file" | dmenu -l 5 -p "Select bookmark to delete:")
+  [ -z "$name" ] && notify "No bookmark selected. Delete canceled." && exit 0
+
+  # Confirm deletion
+  if [ "$(echo -e "y\nn" | dmenu -p "Delete $name? (y/n)")" != "y" ]; then
+    notify "Delete canceled."
+    exit 0
+  fi
+
+  # Delete the bookmark
+  sed -i "/^$name:/d" "$file"
+  notify "Bookmark '$name' deleted."
+}
+
 # Main
 case "$1" in
   -s|--save) save_bookmark ;;
   -r|--retrieve) retrieve_bookmark ;;
-#  -d|--delete) delete_bookmark ;;
+ -d|--delete) delete_bookmark ;;
   *)
     echo "Usage: $0 {-s|--save|-r|--retrieve" #|-d|--delete}"
     exit 1
