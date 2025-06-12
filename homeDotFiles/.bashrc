@@ -10,9 +10,6 @@ append_path () {
     esac
 }
 append_path "$HOME/.local/bin"
-append_path "$HOME/.local/bin/Grayjay.Desktop-linux-x64-v4/Grayjay"
-append_path "$HOME/.local/bin/Faster-Whisper-XXL/faster-whisper-xxl"
-append_path "$HOME/.local/bin/DaVinci_Resolve_Studio_19.0.1_Linux.run"
 
 export HISTSIZE=100000
 export HISTFILESIZE=2000000
@@ -64,10 +61,15 @@ PS1='\n\[\e[1m\]\d\[\e[0;2;3m\]@\[\e[0;1;38;5;209m\]\A\e[0m\] ${PS1_CMD2}\n(\[\e
 [[ -x $(command -v xset) ]] && xset r rate 250 50
 
 set -o vi
+set editing-mode vi
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set menu-complete-display-prefix on
 bind TAB:menu-complete
+bind -x '"\C-l": clear'
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
 
 #shopt
 shopt -s autocd # change to named directory

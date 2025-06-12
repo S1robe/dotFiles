@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# $1 should be a file name to a csv
+if ! [ -f "$1" ]; then echo "$1 cannot be found"; exit 0; fi
+
+# Grab file and parse out content (CNT), removing headers, and quotes 
+CNT=$(awk -vFPAT='([^,]*)|("[^"]+")' -vOFS=, '{print $10","$1","$15","$16}' "$1" | sed 's/\"//g' |  tail +2)
+echo -en "$CNT\n"
+# Strip out the Items from the CNT we pulled from the CSV file 
+ITEMS=$(echo "$CNT" | awk -F, '{print $1 " - Project: " $2 ","}' | tr -d '\n')
+ITEMS=${ITEMS::-1}
+echo -en "$ITEMS\n"
+# Extract the rates from the CSV file
+RATE=$(echo "$CNT" | awk -F, '{print $4 ","}' | tr -d '\n')
+RATE=${RATE::-1}
+echo -en "$RATE\n"
+# Extract the quantity from the CSV file
+QTY=$(echo "$CNT" | awk -F, '{print $3 ","}' | tr -d '\n')
+QTY=${QTY::-1}
+echo -en "$QTY\n"
+# Extract the first and last of the dates in $10 from CNT
+# Uses these to name the file
+FILENAME=$(echo "$CNT" | awk -F, '{print $1","}' | tr -d '\n' | awk -F, '{print $(NF-1)" Invoice.pdf"}' | tr -d '/')
+
+read -r COMPANY
+
+invoice generate --hours -i "$ITEMS" -n "QTY is in Hours" -r "$RATE" -q "$QTY" -f "Garrett Prentice" -t "$COMPANY" -o "$FILENAME" 
