@@ -1,0 +1,73 @@
+#!/bin/bash
+LENGTH=${1:-50}
+BREAK=${2:-10}
+ORANGE='\e[38;5;209m'
+CYAN='\e[96m'
+RESET='\e[0m'
+
+
+draw_clock() {
+    local mins=$1
+    local secs=$2
+    local mode=$3
+    local frame=$(( (60 - secs) % 6 ))  # Animation frame based on seconds
+    
+    # Dancing stick figure on top (6 frames dancing back and forth)
+    case $frame in
+        0) # Far left - arms up
+            printf "   \\o/\n"
+            printf "    |\n"
+            printf "   / \\"
+            ;;
+        1) # Middle-left - leaning right
+            printf "        o/\n"
+            printf "        |\n"
+            printf "       /\\"
+            ;;
+        2) # Center - arms out wide
+            printf "            -o-\n"
+            printf "             |\n"
+            printf "            / \\"
+            ;;
+        3) # Middle-right - leaning left
+            printf "                \\o\n"
+            printf "                 |\n"
+            printf "                /\\"
+            ;;
+        4) # Far right - arms up
+            printf "                     \\o/\n"
+            printf "                      |\n"
+            printf "                     / \\"
+            ;;
+        5) # Middle - jumping
+            printf "            \\o/\n"
+            printf "             |\n"
+            printf "             ^"
+            ;;
+    esac
+    
+    printf "\n╔════════════════════════════╗\n║           ${ORANGE}%02d${RESET}:${CYAN}%02d${RESET}            ║\n╚════════════════════════════╝\n\n        %s\n    Use Ctrl+C to end program" "$mins" "$secs" "$mode"
+}
+timer() {
+    local total=$1
+    local mode=$2
+
+    for i in {5..1}; do printf "\r%s starting in %d..." "$mode" "$i"; sleep 1; done
+    printf "\r%*s\r" 50 ""
+    clear
+
+    while [ "$total" -gt 0 ]; do
+        draw_clock $((total / 60 )) $(( total % 60 )) "$mode"
+        sleep 1
+        clear
+        total=$((total-1))
+    done
+} 
+
+command -v cmus > /dev/null || echo "cmus not installed, no music will be played automagically."
+echo "Running pomo doro timer for ${LENGTH} minutes and breaking for ${BREAK} minutes."
+
+while true; do
+    timer $((LENGTH * 60)) "FOCUS TIME"
+    timer $((BREAK * 60)) "INVIGORATION"
+done
