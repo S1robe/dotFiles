@@ -5,6 +5,7 @@ xterm*SaveLines: 100000
 xterm*eightBitInput: false
 xterm*eightBitOutput: true
 
+xterm*transparent: true
 
 ! Colors
 xterm*background: #000000
