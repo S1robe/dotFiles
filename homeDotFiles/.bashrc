@@ -45,6 +45,7 @@ export FILEMGR="mc"
 export PAGER='less'
 
 export SHELL=$(which bash)
+export PLATFORM=$(uname -o)
 export COLORTERM='truecolor'
 
 export NVIDA_VISIBLE_DEVICES='all'
@@ -64,10 +65,9 @@ PS1='\n\[\e[1m\]\d\[\e[0;2;3m\]@\[\e[0;1;38;5;209m\]\A\e[0m\] ${PS1_CMD2}\n(\[\e
 [[ -f ~/.bash_aliases ]] && . "$HOME"/.bash_aliases
 
 # X-Options
-xset r rate 250 50
+[[ -x $(command -v xset) ]] && xset r rate 250 50
 
 set -o vi
-set editing-mode vi
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set menu-complete-display-prefix on
