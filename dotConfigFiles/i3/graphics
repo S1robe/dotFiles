@@ -2,19 +2,20 @@
 #Client colors of the windows and how they appear
 # class                   border  backgr. text    indicator child_border
 
-  client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
-  client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-  client.unfocused        #333333 #222222 #888888 #292d2e   #222222
-  client.urgent           #2f343a #900000 #ffffff #900000   #900000
-  client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
-  
-  client.background       #ffffff
+client.focused          #4c7899 #1a2e44 #ffffff #2e9ef4   #1a2e44
+client.focused_inactive #404040 #4a5d6a #ffffff #6a7d8d   #4a5d6a
+client.unfocused        #404040 #1c2529 #a0a0a0 #3a4448   #1c2529
+client.urgent           #2f343a #6a2e2e #ffffff #b30000   #6a2e2e
+client.placeholder      #000000 #0c0c0c #ffffff #1a1a1a   #0c0c0c
+
+client.background       #1a1a2e
 
 #Padding ----------------------------------
 # gaps <outer|horizontal|verticle|top|left|bottom|right> <gapsize[px]>
 
-#  gaps outer 2px
-#  gaps inner 8px
+#gaps outer 10px
+#gaps inner 8px
+
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -29,7 +30,6 @@ bar {
    position top
 }
 
-#exec_always nitrogen --restore
 
 # Whether or not to show decoration marks
 
@@ -43,3 +43,7 @@ default_border pixel 1
 workspace $ws1 output "HDMI-1"
 workspace $ws2 output "HDMI-0"
 workspace $ws3 output "DP-3"
+
+exec_always --no-startup-id $HOME/.fehbg
+
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf -b

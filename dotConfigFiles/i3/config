@@ -1,8 +1,8 @@
 set $mod Mod4
 
+include $HOME/.config/i3/graphics
 include $HOME/.config/i3/autostarts
 include $HOME/.config/i3/keybinds
-include $HOME/.config/i3/graphics
 
 focus_follows_mouse yes
 popup_during_fullscreen smart
