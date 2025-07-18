@@ -1,0 +1,71 @@
+final_space: true
+blocks:
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: time
+        style: plain
+        foreground: "#ffffff"
+        template: "{{ .CurrentDate | date .Format }} "
+        properties:
+          time_format: Mon Jan 02 2006
+      - type: text
+        style: plain
+        foreground: "#a0a0a0"
+        template: "@"
+      - type: time
+        style: plain
+        foreground: "#ff875f"
+        template: "{{ .CurrentDate | date .Format }} "
+        properties:
+          time_format: 15:04
+      - type: command
+        style: plain
+        foreground: "#ffffff"
+        template: "@{{ .Output }} "
+        properties:
+          shell: powershell
+          command: "try { (Get-CimInstance -ClassName Win32_ComputerSystem).Name } catch { 'unknown' }"
+      - type: git
+        style: plain
+        foreground: "#ffffff"
+        template: "{{ if .HEAD }}{{ .HEAD }}{{ if .Upstream }} -> {{ .Upstream }}{{ end }}{{ if or (.Working.Changed) (.Staging.Changed) }} (S:{{ .Staging.Count }} U:{{ .Working.Count }} T:{{ if .Untracked }}{{ .Untracked }}{{ else }}0{{ end }}) {{ end }}"
+        properties:
+          fetch_status: true
+          fetch_upstream_icon: false
+          fetch_stash_count: true
+          fetch_worktree_count: true
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: text
+        style: plain
+        foreground: "#ffffff"
+        template: "("
+      - type: text
+        style: plain
+        foreground: "#ff875f"
+        template: "{{ .Folder | split '/' | last | split '\\' | last }}"
+      - type: text
+        style: plain
+        foreground: "#ffffff"
+        template: "|{{ .Env.PSCommandCount | default 0 }}|{{ .Env.JobCount | default 0 }}|{{ if gt .Code 0 }}{{ .Code }}{{ else }}0{{ end }})"
+      - type: session
+        style: plain
+        foreground: "#00ffff"
+        template: " [{{ .UserName }}]"
+      - type: path
+        style: plain
+        foreground: "#ffffff"
+        template: " {{ .Path }}: "
+        properties:
+          style: full
+          folder_separator_icon: "/"
+palette:
+  white: "#ffffff"
+  dim-gray: "#a0a0a0"
+  salmon-orange: "#ff875f"
+  bright-cyan: "#00ffff"
+version: 3
