@@ -47,6 +47,8 @@ if ! [[ $PLATFORM == "Android" ]]; then
     # This is used for i3, sterm and slock
     export BROWSER="vivaldi"
     export FILEMGR="ranger"
+else 
+    export MUSIC_DIR="/storage/emulated/0/Music"
 fi
 
 # If not running interactively, don't do anything

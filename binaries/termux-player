@@ -1,0 +1,341 @@
+#!/data/data/com.termux/files/usr/bin/bash
+readonly MUSIC_DIR="/storage/emulated/0/Music/"
+[[ -d "$MUSIC_DIR" ]] || echo "Music directory doesnt exist!";
+
+readonly CONFIG_DIR="$HOME/.config/termux-music"
+[[ -d "$CONFIG_DIR" ]] || mkdir -p "$CONFIG_DIR"
+
+readonly TRACK_CACHE_FILE="$CONFIG_DIR/track_cache"
+readonly PID_FILE="$CONFIG_DIR/pids"
+readonly TRACK_FILE="$CONFIG_DIR/track"
+readonly STATE_FILE="$CONFIG_DIR/state"
+readonly HISTORY_FILE="$CONFIG_DIR/history"
+
+DAEMON_PID="" # ID of the next_song() daemon
+AUDIO_PID="" # ID of the current play-audio program
+
+TRACK=""
+INDEX=0
+TRACK_NAME=""
+
+# Binary Flags
+SHUFFLE=0   # Do we shuffle for next song 
+REPEAT=0    # Do we keep the repeat current song
+STATUS="Stopped" # Playing: $TRACK or Paused
+
+readarray -t HISTORY < "$HISTORY_FILE" 2> /dev/null
+
+# Save all state
+save_state() {
+    # Save settings
+    echo "$SHUFFLE" > "$STATE_FILE"
+    echo "$REPEAT" >> "$STATE_FILE"
+    echo "$STATUS" >> "$STATE_FILE"
+    echo "$Q_LENGTH" >> "$STATE_FILE"
+    
+    # Save track info
+    echo "$TRACK" > "$TRACK_FILE"
+    echo "$INDEX" >> "$TRACK_FILE"
+
+    
+    if [[ ! -f "$PID_FILE" ]]; then
+        echo "$DAEMON_PID" > "$PID_FILE"
+        echo "$AUDIO_PID" >> "$PID_FILE"
+    else 
+        [[ -z $DAEMON_PID ]] || sed -i "1s/.*/$DAEMON_PID/" "$PID_FILE" 
+        [[ -z $AUDIO_PID ]] || sed -i "2s/.*/$AUDIO_PID/" "$PID_FILE" 
+    fi
+}
+
+read_state() {
+    # Load settings
+    if [[ -f "$STATE_FILE" ]]; then
+        SHUFFLE=$(sed -n '1p' "$STATE_FILE")
+        REPEAT=$(sed -n '2p' "$STATE_FILE")
+        STATUS=$(sed -n '3p' "$STATE_FILE")
+        Q_LENGTH=$(sed -n '4p' "$STATE_FILE")
+    fi
+
+    # Load track info
+    if [[ -f "$TRACK_FILE" ]]; then
+        TRACK=$(sed -n '1p' "$TRACK_FILE")
+        INDEX=$(sed -n '2p' "$TRACK_FILE")
+        TRACK_NAME=${TRACK##*/}
+    fi
+
+}
+
+# Load all state
+load_state() {
+    
+    read_state 
+    # Validate PIDs
+    if [[ -f "$PID_FILE" ]]; then
+        local daemon_pid=$(sed -n '1p' "$PID_FILE")
+        local audio_pid=$(sed -n '2p' "$PID_FILE")
+        
+        # Only keep valid PIDs
+        kill -0 "$daemon_pid" 2>/dev/null && DAEMON_PID=$daemon_pid
+        kill -0 "$audio_pid" 2>/dev/null && AUDIO_PID=$audio_pid
+    fi
+}
+
+start_player() {
+    if [[ -n "$DAEMON_PID" ]]; then 
+        if kill -0 "$DAEMON_PID" 2>/dev/null; then
+            stop
+        fi
+    fi 
+    player & DAEMON_PID=$!
+    save_state
+}
+
+toggle() {
+    if [[ "$STATUS" == "Playing" ]]; then
+        pause
+    else # Status is Stopped
+        resume
+    fi
+}
+
+play() {
+    TRACK=${QUEUE[$INDEX]}
+    TRACK_NAME=${TRACK##*/}
+    play-audio "$TRACK" & 
+    AUDIO_PID=$!
+
+    sleep 0.3
+
+    if kill -0 "$AUDIO_PID" 2>/dev/null; then
+        set_status "Playing"
+    else
+        set_status "Not Playing"
+    fi
+} 
+
+resume() {
+    if [[ -z $DAEMON_PID ]]; then 
+        start_player; 
+    else 
+        kill -CONT $DAEMON_PID 2> /dev/null
+        sleep 0.1
+        set_status "Playing"
+    fi
+}
+
+pause() {
+    if [[ -z $DAEMON_PID ]]; then return; fi
+    kill -STOP $DAEMON_PID 2> /dev/null
+    sleep 0.1
+    kill -TERM $AUDIO_PID 2> /dev/null
+    set_status "Paused"
+}
+
+next() {
+    if [[ -z $DAEMON_PID ]]; then return; fi
+     
+    if [[ $SHUFFLE -eq 1 ]]; then
+        INDEX=$((RANDOM % Q_LENGTH)); 
+    else 
+        INDEX=$(((INDEX + 1) % Q_LENGTH));
+    fi
+    sed -i "2s/.*/$INDEX/" "$STATE_FILE" 
+
+    # if we are pausd and skip the current song, resume.
+    if [[ "$STATUS" == "Paused" ]]; then
+        kill -CONT $DAEMON_PID 2> /dev/null;
+        kill -TERM "$AUDIO_PID" 2> /dev/null;
+    else 
+        # Force the existing daemon to go next song
+        kill -TERM "$AUDIO_PID"
+    fi
+}
+stop() {
+    kill -TERM "$DAEMON_PID" ## Kill audio player
+    kill -TERM "$AUDIO_PID" ## Kill player
+    unset DAEMON_PID
+    unset AUDIO_PID
+    save_state 
+    rm -f "$PID_FILE" ## Drop the state
+
+    set_status  "Not Playing"
+}
+
+search() {
+    local selected
+    selected=$(printf '%s\n' "${QUEUE[@]}" | \
+        awk -F/ '{print $NF "\t" $0}' | \
+        fzf --prompt "🔍 Search: " \
+            --with-nth=1 \
+            --delimiter='\t' | \
+        cut -f2)
+    
+    if [[ -n "$selected" ]]; then
+        # Find index of selected track
+        for i in "${!QUEUE[@]}"; do
+            if [[ "${QUEUE[$i]}" == "$selected" ]]; then
+                INDEX=$i
+                start_player 
+                break
+            fi
+        done
+    fi
+}
+
+find_music() {
+    find "$MUSIC_DIR" -type f \( \
+        -iname "*.mp3" -o \
+        -iname "*.m4a" -o \
+        -iname "*.flac" -o \
+        -iname "*.ogg" -o \
+        -iname "*.wav" -o \
+        -iname "*.opus" -o \
+        -iname "*.mp4" \
+    \) 2>/dev/null | sort
+}
+
+load_music() {
+    # Load from cache if exists
+    if [[ -f "$TRACK_CACHE_FILE" ]]; then
+        readarray -t QUEUE < "$TRACK_CACHE_FILE"
+    else
+        readarray -t QUEUE < <(find_music)
+        printf '%s\n' "${QUEUE[@]}" > "$TRACK_CACHE_FILE"
+    fi
+
+    Q_LENGTH=${#QUEUE[@]}
+    if [[ $Q_LENGTH -eq 0 ]]; then
+        echo "No music found in $MUSIC_DIR"
+        exit 1
+    fi
+}
+
+# Daemon
+player() {
+    while true; do
+
+        play
+        save_state
+        wait $AUDIO_PID
+
+        read_state
+ 
+        [[ $STATUS == "Paused" ]] || [[ $REPEAT -eq 1 ]] || if [[ $SHUFFLE -eq 1 ]]; then
+            INDEX=$((RANDOM % Q_LENGTH)); 
+        else 
+            INDEX=$(((INDEX + 1) % Q_LENGTH));
+        fi
+
+        save_state 
+    done
+}
+
+status() {
+    local status="$STATUS"
+    if [[ $SHUFFLE -eq 1 ]]; then status="S $status"; fi
+    if [[ $REPEAT -eq 1 ]]; then status="R $status"; fi
+    printf "%s (%d/%d)\n%s" "$status" $INDEX $Q_LENGTH "$TRACK_NAME"
+}
+
+set_status() {
+    STATUS=$1
+    sed -i "3s/.*/$STATUS/" "$STATE_FILE"
+    local control_text=""
+    local control_path="/data/data/com.termux/files/home/.local/bin/termux-player"
+    if [[ "$STATUS" == "Playing" ]]; then
+        control_text="[=]"
+    else
+        control_text="[+]"
+    fi
+
+    termux-notification \
+        --id "termux-player" \
+        --title "$TRACK_NAME" \
+        --content "${STATUS##*/\n}" \
+        --priority high \
+        --ongoing \
+        --button1 "[<<]" \
+        --button1-action "bash -l -c '$control_path prev'" \
+        --button2 "$control_text" \
+        --button2-action "bash -l -c '$control_path toggle'" \
+        --button3 "[>>]" \
+        --button3-action "bash -l -c '$control_path next'"
+}
+
+
+toggle_shuffle() {
+    SHUFFLE=$((SHUFFLE ^ 1)); 
+    if [[ ! -f "$STATE_FILE" ]]; then
+        echo "$SHUFFLE" > "$STATE_FILE"
+        echo "$REPEAT" >> "$STATE_FILE"
+        echo "$STATUS" >> "$STATE_FILE"
+        echo "$Q_LENGTH" >> "$STATE_FILE"
+    else
+        sed -i "1s/.*/$SHUFFLE/" "$STATE_FILE"
+    fi
+}
+
+toggle_repeat() {
+    REPEAT=$((REPEAT ^ 1));
+    if [[ ! -f "$STATE_FILE" ]]; then
+        echo "$SHUFFLE" > "$STATE_FILE"
+        echo "$REPEAT" >> "$STATE_FILE"
+        echo "$STATUS" >> "$STATE_FILE"
+        echo "$Q_LENGTH" >> "$STATE_FILE"
+    else 
+        sed -i "2s/.*/$REPEAT/" "$STATE_FILE" 
+    fi
+}
+
+main_menu() {
+    while true; do
+        clear
+        status
+        echo
+        
+        local selections
+        if [[ -z "$AUDIO_PID" ]]; then
+            selections="🔍 Search\n🔀 Toggle Shuffle\n🔁 Toggle Repeat\n⏯️ Play/Pause\n🔄 Reload Library\n❌ Exit"
+        else 
+            selections="🔍 Search\n🔀 Toggle Shuffle\n🔁 Toggle Repeat\n⏯️ Play/Pause\n⏭️ Next\n⏮️ Previous\n⏹️ Stop\n🔄 Reload Library\n❌ Exit"
+        fi
+
+        local choice
+        choice=$(echo -e "$selections" | \
+            fzf --prompt="Choose action: " \
+                --height=70% \
+                --layout=reverse)
+        
+        case "$choice" in
+            "⏭️ Next") next ;;
+            "⏮️ Previous") prev ;;
+            "🔀 Toggle Shuffle") toggle_shuffle ;;
+            "🔁 Toggle Repeat") toggle_repeat ;;
+            "🔍 Search") search ;;
+            "⏯️ Play/Pause") toggle ;;
+            "⏹️ Stop") stop ;;
+            "🔄 Reload Library") load_music ;;
+            "❌ Exit") 
+                clear
+                break 
+                ;;
+        esac
+        sleep 0.8;
+        load_state
+    done
+}
+
+load_state 
+load_music
+
+# Handle command line args
+case "${1:-main_menu}" in
+    toggle) toggle ;;
+    next) next ;;
+    #prev) prev ;;
+    stop) stop ;;
+    shuffle)  toggle_shuffle ;;
+    repeat) toggle_repeat ;;
+    *)  main_menu 
+        ;;
+esac

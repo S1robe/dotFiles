@@ -1,0 +1,2 @@
+#!/bin/bash
+curl wttr.in/{NV_Las_Vegas,UT_Layton}?1qF && exit 0
